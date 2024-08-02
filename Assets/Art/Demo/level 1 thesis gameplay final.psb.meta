@@ -1,0 +1,869 @@
+fileFormatVersion: 2
+guid: 7c9b392eb11831f47b67578b0edeb7e3
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 0, y: 0}
+  mosaicSpriteImportData: []
+  rigSpriteImportData:
+  - name: texture
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 15247
+      height: 2160
+    spriteID: 557aadef09a1d054d8a3f70ae1bdbfc3
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -1049, y: 4}
+  - name: electricity wire front
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 2172
+      width: 14319
+      height: 2159
+    spriteID: 5ef0033d788dad7458020c9695c9bd78
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 2171}
+  - name: foreground
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 7641
+      width: 16300
+      height: 1339
+    spriteID: 508d215478445c544b38489696a6e791
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 7640}
+  - name: void
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 11525
+      width: 16300
+      height: 759
+    spriteID: 31f298ee2a842e147b086ea53b0ef1ee
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 11524}
+  - name: sun
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 12895
+      width: 2976
+      height: 2160
+    spriteID: 13534ea1ce119eb44ad98a0b1cab5184
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -12841, y: 12895}
+  - name: sliding platforms
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 2988
+      y: 12895
+      width: 8057
+      height: 234
+    spriteID: 2b4119c15e4438f44bd1e120eae6445b
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -3182, y: 12078}
+  - name: falling spiike
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15566
+      y: 12588
+      width: 174
+      height: 150
+    spriteID: 2741333b0ec0d4542a5b26b961e77d97
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 976, y: 10968}
+  - name: Static Spike
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15371
+      y: 12292
+      width: 272
+      height: 288
+    spriteID: d32d9f2c14b9faf4d864a717c2d970c8
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4667, y: 11621}
+  - name: 'static spike '
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 16212
+      y: 12292
+      width: 161
+      height: 157
+    spriteID: d7f161a8c58b77c45962c6646d78dead
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 6374, y: 11479}
+  - name: falling spike
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15371
+      y: 12588
+      width: 187
+      height: 144
+    spriteID: d77b5b4c614cb3e43839bb0279eb2be2
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 5266, y: 11617}
+  - name: 'Spike 1 '
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15970
+      y: 12292
+      width: 234
+      height: 201
+    spriteID: c4abcfc8a8220eb4f8f76c5dc0fefe0a
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 581, y: 11572}
+  - name: falling platform 6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15651
+      y: 12292
+      width: 311
+      height: 202
+    spriteID: 2e9b728988618404b8c9faf75297f204
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 300, y: 10810}
+  - name: Falling platform 5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15651
+      y: 12502
+      width: 241
+      height: 55
+    spriteID: cc4478cca46204047832b6c66166177c
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 645, y: 11487}
+  - name: Falling Platform 4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15970
+      y: 12501
+      width: 178
+      height: 46
+    spriteID: 25d9e4716a5d17d42908241b441fd59d
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 691, y: 11542}
+  - name: Falling Platform 3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15100
+      y: 12747
+      width: 178
+      height: 46
+    spriteID: 97a89fbaf5e3a334eb58ea95230a1d53
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 313, y: 11758}
+  - name: Falling Platform 2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 16212
+      y: 12457
+      width: 145
+      height: 108
+    spriteID: 77b18f9d5c94ca94087a766b8d37a930
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 1593, y: 11574}
+  - name: Falling Platform 1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15100
+      y: 12801
+      width: 149
+      height: 43
+    spriteID: 645538189b7a66d459dd5286643ffef9
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 630, y: 11988}
+  - name: platforms
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 2988
+      y: 13137
+      width: 4198
+      height: 279
+    spriteID: 4af184dbd9df42245bb4a5389470dbb5
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -6564, y: 12254}
+  - name: 'save point '
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15100
+      y: 12292
+      width: 263
+      height: 447
+    spriteID: 289f50f56457b9242a5558bceac3bd58
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 8426, y: 11609}
+  - name: flicker effect on this text
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 15371
+      y: 12740
+      width: 136
+      height: 110
+    spriteID: d9f3db2c83efca9448b31f857889885e
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 13722, y: 11799}
+  - name: buildings
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 8988
+      width: 16260
+      height: 1265
+    spriteID: 46b476ddc7622474aad5b443a1bc8969
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -36, y: 8955}
+  - name: electricity wires
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 12292
+      width: 15088
+      height: 595
+    spriteID: e53846a728783f343990514b2cdc9d02
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -1208, y: 11684}
+  - name: background buildings
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 10261
+      width: 16263
+      height: 1256
+    spriteID: acdc00cf3ea47f843ba29b1aeeb9c426
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -33, y: 10060}
+  - name: clouds
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 6009
+      width: 16300
+      height: 1624
+    spriteID: eb2571b4cdbfadd4096e0388b476ec05
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 5473}
+  - name: 'background '
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4339
+      width: 16300
+      height: 1662
+    spriteID: 743d0e3cccc9e2b40b1fb024706eb818
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 3841}
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  mosaicLayers: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  importedTextureWidth: 8192
+  importedTextureHeight: 8192
+  documentSize: {x: 16300, y: 2160}
+  paperDollMode: 0
+  keepDupilcateSpriteName: 0
+  spriteCategoryList:
+    categories: []
+  textureActualWidth: 16384
+  textureActualHeight: 16384
+  spritePackingTag: 
+  resliceFromLayer: 0
+  characterMode: 1
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: texture
+    spriteName: texture
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 557aadef09a1d054d8a3f70ae1bdbfc3
+    layerID: 26
+    mosaicPosition: {x: 4, y: 4}
+  - name: electricity wire front
+    spriteName: electricity wire front
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 5ef0033d788dad7458020c9695c9bd78
+    layerID: 25
+    mosaicPosition: {x: 4, y: 2172}
+  - name: foreground
+    spriteName: foreground
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 508d215478445c544b38489696a6e791
+    layerID: 24
+    mosaicPosition: {x: 4, y: 7641}
+  - name: void
+    spriteName: void
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 31f298ee2a842e147b086ea53b0ef1ee
+    layerID: 23
+    mosaicPosition: {x: 4, y: 11525}
+  - name: sun
+    spriteName: sun
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 13534ea1ce119eb44ad98a0b1cab5184
+    layerID: 22
+    mosaicPosition: {x: 4, y: 12895}
+  - name: sliding platforms
+    spriteName: sliding platforms
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 2b4119c15e4438f44bd1e120eae6445b
+    layerID: 21
+    mosaicPosition: {x: 2988, y: 12895}
+  - name: falling spiike
+    spriteName: falling spiike
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 2741333b0ec0d4542a5b26b961e77d97
+    layerID: 20
+    mosaicPosition: {x: 15566, y: 12588}
+  - name: Static Spike
+    spriteName: Static Spike
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d32d9f2c14b9faf4d864a717c2d970c8
+    layerID: 19
+    mosaicPosition: {x: 15371, y: 12292}
+  - name: 'static spike '
+    spriteName: 'static spike '
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d7f161a8c58b77c45962c6646d78dead
+    layerID: 18
+    mosaicPosition: {x: 16212, y: 12292}
+  - name: falling spike
+    spriteName: falling spike
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d77b5b4c614cb3e43839bb0279eb2be2
+    layerID: 17
+    mosaicPosition: {x: 15371, y: 12588}
+  - name: 'Spike 1 '
+    spriteName: 'Spike 1 '
+    isGroup: 0
+    parentIndex: -1
+    spriteID: c4abcfc8a8220eb4f8f76c5dc0fefe0a
+    layerID: 16
+    mosaicPosition: {x: 15970, y: 12292}
+  - name: falling platform 6
+    spriteName: falling platform 6
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 2e9b728988618404b8c9faf75297f204
+    layerID: 15
+    mosaicPosition: {x: 15651, y: 12292}
+  - name: Falling platform 5
+    spriteName: Falling platform 5
+    isGroup: 0
+    parentIndex: -1
+    spriteID: cc4478cca46204047832b6c66166177c
+    layerID: 14
+    mosaicPosition: {x: 15651, y: 12502}
+  - name: Falling Platform 4
+    spriteName: Falling Platform 4
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 25d9e4716a5d17d42908241b441fd59d
+    layerID: 13
+    mosaicPosition: {x: 15970, y: 12501}
+  - name: Falling Platform 3
+    spriteName: Falling Platform 3
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 97a89fbaf5e3a334eb58ea95230a1d53
+    layerID: 12
+    mosaicPosition: {x: 15100, y: 12747}
+  - name: Falling Platform 2
+    spriteName: Falling Platform 2
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 77b18f9d5c94ca94087a766b8d37a930
+    layerID: 11
+    mosaicPosition: {x: 16212, y: 12457}
+  - name: Falling Platform 1
+    spriteName: Falling Platform 1
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 645538189b7a66d459dd5286643ffef9
+    layerID: 10
+    mosaicPosition: {x: 15100, y: 12801}
+  - name: platforms
+    spriteName: platforms
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 4af184dbd9df42245bb4a5389470dbb5
+    layerID: 9
+    mosaicPosition: {x: 2988, y: 13137}
+  - name: 'save point '
+    spriteName: 'save point '
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 289f50f56457b9242a5558bceac3bd58
+    layerID: 8
+    mosaicPosition: {x: 15100, y: 12292}
+  - name: flicker effect on this text
+    spriteName: flicker effect on this text
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d9f3db2c83efca9448b31f857889885e
+    layerID: 7
+    mosaicPosition: {x: 15371, y: 12740}
+  - name: buildings
+    spriteName: buildings
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 46b476ddc7622474aad5b443a1bc8969
+    layerID: 6
+    mosaicPosition: {x: 4, y: 8988}
+  - name: electricity wires
+    spriteName: electricity wires
+    isGroup: 0
+    parentIndex: -1
+    spriteID: e53846a728783f343990514b2cdc9d02
+    layerID: 5
+    mosaicPosition: {x: 4, y: 12292}
+  - name: background buildings
+    spriteName: background buildings
+    isGroup: 0
+    parentIndex: -1
+    spriteID: acdc00cf3ea47f843ba29b1aeeb9c426
+    layerID: 4
+    mosaicPosition: {x: 4, y: 10261}
+  - name: clouds
+    spriteName: clouds
+    isGroup: 0
+    parentIndex: -1
+    spriteID: eb2571b4cdbfadd4096e0388b476ec05
+    layerID: 3
+    mosaicPosition: {x: 4, y: 6009}
+  - name: 'background '
+    spriteName: 'background '
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 743d0e3cccc9e2b40b1fb024706eb818
+    layerID: 2
+    mosaicPosition: {x: 4, y: 4339}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+  generateGOHierarchy: 0
+  textureAssetName: level 1 thesis gameplay final Texture
+  prefabAssetName: level 1 thesis gameplay final Prefab
+  spriteLibAssetName: level 1 thesis gameplay final Sprite Lib
+  secondarySpriteTextures: []
