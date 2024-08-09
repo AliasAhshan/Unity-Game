@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7c9b392eb11831f47b67578b0edeb7e3
+guid: e6cc8fded6a010a4182e2ac077988d10
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -100,9 +100,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 15247
+      width: 16300
       height: 2160
-    spriteID: 557aadef09a1d054d8a3f70ae1bdbfc3
+    spriteID: 1bdbcf7ce0c485244a29cf18ee425f15
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -112,7 +112,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -1049, y: 4}
+    uvTransform: {x: 4, y: 4}
   - name: electricity wire front
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -124,7 +124,7 @@ ScriptedImporter:
       y: 2172
       width: 14319
       height: 2159
-    spriteID: 5ef0033d788dad7458020c9695c9bd78
+    spriteID: b03bc4ee9583cd747a9f582a59590e26
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -146,7 +146,7 @@ ScriptedImporter:
       y: 7641
       width: 16300
       height: 1339
-    spriteID: 508d215478445c544b38489696a6e791
+    spriteID: 2f3e3d51b817e83488746456430a293f
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -168,7 +168,7 @@ ScriptedImporter:
       y: 11525
       width: 16300
       height: 759
-    spriteID: 31f298ee2a842e147b086ea53b0ef1ee
+    spriteID: d8680f608e43c1d409b45614b7bc02e1
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -190,7 +190,7 @@ ScriptedImporter:
       y: 12895
       width: 2976
       height: 2160
-    spriteID: 13534ea1ce119eb44ad98a0b1cab5184
+    spriteID: 7b93c56a357dceb4ca60ec3be2b1b313
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -212,7 +212,7 @@ ScriptedImporter:
       y: 12895
       width: 8057
       height: 234
-    spriteID: 2b4119c15e4438f44bd1e120eae6445b
+    spriteID: ca1218539311a0146a9d6c433af014f3
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -234,7 +234,7 @@ ScriptedImporter:
       y: 12588
       width: 174
       height: 150
-    spriteID: 2741333b0ec0d4542a5b26b961e77d97
+    spriteID: b266f6b48db5e4846a031e6bf61ddd96
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -256,7 +256,7 @@ ScriptedImporter:
       y: 12292
       width: 272
       height: 288
-    spriteID: d32d9f2c14b9faf4d864a717c2d970c8
+    spriteID: 700abab096c31e1459f997bfc203905b
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -278,7 +278,7 @@ ScriptedImporter:
       y: 12292
       width: 161
       height: 157
-    spriteID: d7f161a8c58b77c45962c6646d78dead
+    spriteID: e32f49c41e521cc4982c5c3addd975de
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -300,7 +300,7 @@ ScriptedImporter:
       y: 12588
       width: 187
       height: 144
-    spriteID: d77b5b4c614cb3e43839bb0279eb2be2
+    spriteID: 6efa4a10eb413464d9fd687aa1762307
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -322,7 +322,7 @@ ScriptedImporter:
       y: 12292
       width: 234
       height: 201
-    spriteID: c4abcfc8a8220eb4f8f76c5dc0fefe0a
+    spriteID: 860d06b3db64ba64aa4a0b3e610ea2ae
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -344,7 +344,7 @@ ScriptedImporter:
       y: 12292
       width: 311
       height: 202
-    spriteID: 2e9b728988618404b8c9faf75297f204
+    spriteID: 4f1ed1d30af39dc4dbd50d7d632213f6
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -366,7 +366,7 @@ ScriptedImporter:
       y: 12502
       width: 241
       height: 55
-    spriteID: cc4478cca46204047832b6c66166177c
+    spriteID: 01407a8d5860b6748b3291fd774e5a06
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -388,7 +388,7 @@ ScriptedImporter:
       y: 12501
       width: 178
       height: 46
-    spriteID: 25d9e4716a5d17d42908241b441fd59d
+    spriteID: 8b19330f723a88a4a898b18e704d8d4f
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -410,7 +410,7 @@ ScriptedImporter:
       y: 12747
       width: 178
       height: 46
-    spriteID: 97a89fbaf5e3a334eb58ea95230a1d53
+    spriteID: ba1740d7d41d61948b8637e971a55014
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -432,7 +432,7 @@ ScriptedImporter:
       y: 12457
       width: 145
       height: 108
-    spriteID: 77b18f9d5c94ca94087a766b8d37a930
+    spriteID: 1aab75ecf9defb146ba547b5693186b4
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -454,7 +454,7 @@ ScriptedImporter:
       y: 12801
       width: 149
       height: 43
-    spriteID: 645538189b7a66d459dd5286643ffef9
+    spriteID: f69386d8efdeb3f4bbdb3f9c080775d3
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -476,7 +476,7 @@ ScriptedImporter:
       y: 13137
       width: 4198
       height: 279
-    spriteID: 4af184dbd9df42245bb4a5389470dbb5
+    spriteID: 0322a7c589e2169418964e5dfb702d03
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -498,7 +498,7 @@ ScriptedImporter:
       y: 12292
       width: 263
       height: 447
-    spriteID: 289f50f56457b9242a5558bceac3bd58
+    spriteID: 7d5fd017e9bef7447b9085c3a18f0232
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -520,7 +520,7 @@ ScriptedImporter:
       y: 12740
       width: 136
       height: 110
-    spriteID: d9f3db2c83efca9448b31f857889885e
+    spriteID: 1c98475bd18768c4883800772d74b698
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -542,7 +542,7 @@ ScriptedImporter:
       y: 8988
       width: 16260
       height: 1265
-    spriteID: 46b476ddc7622474aad5b443a1bc8969
+    spriteID: d87e6788bd786574283f5118a31270fb
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -564,7 +564,7 @@ ScriptedImporter:
       y: 12292
       width: 15088
       height: 595
-    spriteID: e53846a728783f343990514b2cdc9d02
+    spriteID: c400dac0c48f9894a89c5a3e919e1fbe
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -586,7 +586,7 @@ ScriptedImporter:
       y: 10261
       width: 16263
       height: 1256
-    spriteID: acdc00cf3ea47f843ba29b1aeeb9c426
+    spriteID: 711b3c566108750408bbb1e63ea36379
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -608,7 +608,7 @@ ScriptedImporter:
       y: 6009
       width: 16300
       height: 1624
-    spriteID: eb2571b4cdbfadd4096e0388b476ec05
+    spriteID: 109b5e0ae80672b49aa33d3bc4fefa54
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -630,7 +630,7 @@ ScriptedImporter:
       y: 4339
       width: 16300
       height: 1662
-    spriteID: 743d0e3cccc9e2b40b1fb024706eb818
+    spriteID: bfa31ed8a72b78541a8a02bc141bde77
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -644,7 +644,7 @@ ScriptedImporter:
   platformSettings:
   - name: DefaultTexturePlatform
     overridden: 0
-    maxTextureSize: 8192
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -655,7 +655,7 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   - name: Standalone
     overridden: 0
-    maxTextureSize: 8192
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -668,8 +668,8 @@ ScriptedImporter:
   documentPivot: {x: 0, y: 0}
   documentAlignment: 7
   importHiddenLayers: 0
-  importedTextureWidth: 8192
-  importedTextureHeight: 8192
+  importedTextureWidth: 16384
+  importedTextureHeight: 16384
   documentSize: {x: 16300, y: 2160}
   paperDollMode: 0
   keepDupilcateSpriteName: 0
@@ -686,175 +686,175 @@ ScriptedImporter:
     spriteName: texture
     isGroup: 0
     parentIndex: -1
-    spriteID: 557aadef09a1d054d8a3f70ae1bdbfc3
-    layerID: 26
+    spriteID: 1bdbcf7ce0c485244a29cf18ee425f15
+    layerID: 48
     mosaicPosition: {x: 4, y: 4}
   - name: electricity wire front
     spriteName: electricity wire front
     isGroup: 0
     parentIndex: -1
-    spriteID: 5ef0033d788dad7458020c9695c9bd78
+    spriteID: b03bc4ee9583cd747a9f582a59590e26
     layerID: 25
     mosaicPosition: {x: 4, y: 2172}
   - name: foreground
     spriteName: foreground
     isGroup: 0
     parentIndex: -1
-    spriteID: 508d215478445c544b38489696a6e791
+    spriteID: 2f3e3d51b817e83488746456430a293f
     layerID: 24
     mosaicPosition: {x: 4, y: 7641}
   - name: void
     spriteName: void
     isGroup: 0
     parentIndex: -1
-    spriteID: 31f298ee2a842e147b086ea53b0ef1ee
+    spriteID: d8680f608e43c1d409b45614b7bc02e1
     layerID: 23
     mosaicPosition: {x: 4, y: 11525}
   - name: sun
     spriteName: sun
     isGroup: 0
     parentIndex: -1
-    spriteID: 13534ea1ce119eb44ad98a0b1cab5184
-    layerID: 22
+    spriteID: 7b93c56a357dceb4ca60ec3be2b1b313
+    layerID: 49
     mosaicPosition: {x: 4, y: 12895}
   - name: sliding platforms
     spriteName: sliding platforms
     isGroup: 0
     parentIndex: -1
-    spriteID: 2b4119c15e4438f44bd1e120eae6445b
+    spriteID: ca1218539311a0146a9d6c433af014f3
     layerID: 21
     mosaicPosition: {x: 2988, y: 12895}
   - name: falling spiike
     spriteName: falling spiike
     isGroup: 0
     parentIndex: -1
-    spriteID: 2741333b0ec0d4542a5b26b961e77d97
+    spriteID: b266f6b48db5e4846a031e6bf61ddd96
     layerID: 20
     mosaicPosition: {x: 15566, y: 12588}
   - name: Static Spike
     spriteName: Static Spike
     isGroup: 0
     parentIndex: -1
-    spriteID: d32d9f2c14b9faf4d864a717c2d970c8
+    spriteID: 700abab096c31e1459f997bfc203905b
     layerID: 19
     mosaicPosition: {x: 15371, y: 12292}
   - name: 'static spike '
     spriteName: 'static spike '
     isGroup: 0
     parentIndex: -1
-    spriteID: d7f161a8c58b77c45962c6646d78dead
+    spriteID: e32f49c41e521cc4982c5c3addd975de
     layerID: 18
     mosaicPosition: {x: 16212, y: 12292}
   - name: falling spike
     spriteName: falling spike
     isGroup: 0
     parentIndex: -1
-    spriteID: d77b5b4c614cb3e43839bb0279eb2be2
+    spriteID: 6efa4a10eb413464d9fd687aa1762307
     layerID: 17
     mosaicPosition: {x: 15371, y: 12588}
   - name: 'Spike 1 '
     spriteName: 'Spike 1 '
     isGroup: 0
     parentIndex: -1
-    spriteID: c4abcfc8a8220eb4f8f76c5dc0fefe0a
+    spriteID: 860d06b3db64ba64aa4a0b3e610ea2ae
     layerID: 16
     mosaicPosition: {x: 15970, y: 12292}
   - name: falling platform 6
     spriteName: falling platform 6
     isGroup: 0
     parentIndex: -1
-    spriteID: 2e9b728988618404b8c9faf75297f204
+    spriteID: 4f1ed1d30af39dc4dbd50d7d632213f6
     layerID: 15
     mosaicPosition: {x: 15651, y: 12292}
   - name: Falling platform 5
     spriteName: Falling platform 5
     isGroup: 0
     parentIndex: -1
-    spriteID: cc4478cca46204047832b6c66166177c
+    spriteID: 01407a8d5860b6748b3291fd774e5a06
     layerID: 14
     mosaicPosition: {x: 15651, y: 12502}
   - name: Falling Platform 4
     spriteName: Falling Platform 4
     isGroup: 0
     parentIndex: -1
-    spriteID: 25d9e4716a5d17d42908241b441fd59d
+    spriteID: 8b19330f723a88a4a898b18e704d8d4f
     layerID: 13
     mosaicPosition: {x: 15970, y: 12501}
   - name: Falling Platform 3
     spriteName: Falling Platform 3
     isGroup: 0
     parentIndex: -1
-    spriteID: 97a89fbaf5e3a334eb58ea95230a1d53
+    spriteID: ba1740d7d41d61948b8637e971a55014
     layerID: 12
     mosaicPosition: {x: 15100, y: 12747}
   - name: Falling Platform 2
     spriteName: Falling Platform 2
     isGroup: 0
     parentIndex: -1
-    spriteID: 77b18f9d5c94ca94087a766b8d37a930
+    spriteID: 1aab75ecf9defb146ba547b5693186b4
     layerID: 11
     mosaicPosition: {x: 16212, y: 12457}
   - name: Falling Platform 1
     spriteName: Falling Platform 1
     isGroup: 0
     parentIndex: -1
-    spriteID: 645538189b7a66d459dd5286643ffef9
+    spriteID: f69386d8efdeb3f4bbdb3f9c080775d3
     layerID: 10
     mosaicPosition: {x: 15100, y: 12801}
   - name: platforms
     spriteName: platforms
     isGroup: 0
     parentIndex: -1
-    spriteID: 4af184dbd9df42245bb4a5389470dbb5
+    spriteID: 0322a7c589e2169418964e5dfb702d03
     layerID: 9
     mosaicPosition: {x: 2988, y: 13137}
   - name: 'save point '
     spriteName: 'save point '
     isGroup: 0
     parentIndex: -1
-    spriteID: 289f50f56457b9242a5558bceac3bd58
+    spriteID: 7d5fd017e9bef7447b9085c3a18f0232
     layerID: 8
     mosaicPosition: {x: 15100, y: 12292}
   - name: flicker effect on this text
     spriteName: flicker effect on this text
     isGroup: 0
     parentIndex: -1
-    spriteID: d9f3db2c83efca9448b31f857889885e
+    spriteID: 1c98475bd18768c4883800772d74b698
     layerID: 7
     mosaicPosition: {x: 15371, y: 12740}
   - name: buildings
     spriteName: buildings
     isGroup: 0
     parentIndex: -1
-    spriteID: 46b476ddc7622474aad5b443a1bc8969
-    layerID: 6
+    spriteID: d87e6788bd786574283f5118a31270fb
+    layerID: 34
     mosaicPosition: {x: 4, y: 8988}
   - name: electricity wires
     spriteName: electricity wires
     isGroup: 0
     parentIndex: -1
-    spriteID: e53846a728783f343990514b2cdc9d02
+    spriteID: c400dac0c48f9894a89c5a3e919e1fbe
     layerID: 5
     mosaicPosition: {x: 4, y: 12292}
   - name: background buildings
     spriteName: background buildings
     isGroup: 0
     parentIndex: -1
-    spriteID: acdc00cf3ea47f843ba29b1aeeb9c426
+    spriteID: 711b3c566108750408bbb1e63ea36379
     layerID: 4
     mosaicPosition: {x: 4, y: 10261}
   - name: clouds
     spriteName: clouds
     isGroup: 0
     parentIndex: -1
-    spriteID: eb2571b4cdbfadd4096e0388b476ec05
+    spriteID: 109b5e0ae80672b49aa33d3bc4fefa54
     layerID: 3
     mosaicPosition: {x: 4, y: 6009}
   - name: 'background '
     spriteName: 'background '
     isGroup: 0
     parentIndex: -1
-    spriteID: 743d0e3cccc9e2b40b1fb024706eb818
+    spriteID: bfa31ed8a72b78541a8a02bc141bde77
     layerID: 2
     mosaicPosition: {x: 4, y: 4339}
   characterData:
@@ -863,7 +863,7 @@ ScriptedImporter:
     dimension: {x: 0, y: 0}
     characterGroups: []
   generateGOHierarchy: 0
-  textureAssetName: level 1 thesis gameplay final Texture
-  prefabAssetName: level 1 thesis gameplay final Prefab
-  spriteLibAssetName: level 1 thesis gameplay final Sprite Lib
+  textureAssetName: Game Level 1 Texture
+  prefabAssetName: Game Level 1 Prefab
+  spriteLibAssetName: Game Level 1 Sprite Lib
   secondarySpriteTextures: []
