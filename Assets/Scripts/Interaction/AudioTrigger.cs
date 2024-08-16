@@ -17,11 +17,26 @@ public class AudioTrigger : MonoBehaviour
     public float maxVolume; //The volume we are going to fade to
     private bool triggered; //Is set to true once the player touches the collider trigger zone
 
+    private GameObject player;
+    private PlayerMovement playerMovement; // Reference to your PlayerMovement script
+
     // Use this for initialization
     void Start()
     {
         Reset(false, sound, 0);
         StartCoroutine(EnableCollider());
+
+        // Find the player by tag (assuming your Player is tagged as "Player")
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            playerMovement = player.GetComponent<PlayerMovement>(); // Get the PlayerMovement script
+        }
+        else
+        {
+            Debug.LogWarning("Player not found! Ensure the player has a 'Player' tag.");
+        }
     }
 
     // Update is called once per frame
@@ -29,11 +44,7 @@ public class AudioTrigger : MonoBehaviour
     {
         audioSource.loop = loop;
 
-        /*If the player isn't dead, and we either trigger or want to 
-        AudioTrigger to automatically play, the audioSource will begin playing.
-        */
-
-        if (!NewPlayer.Instance.dead)
+        if (playerMovement != null && !playerMovement.dead) // Check the player's dead status
         {
             if (triggered || autoPlay)
             {
@@ -42,7 +53,7 @@ public class AudioTrigger : MonoBehaviour
                     audioSource.Play();
                 }
 
-                //Begin fading in the audioSource volume as long as it's smaller than the goToVolume
+                //Begin fading in the audioSource volume as long as it's smaller than the maxVolume
                 if (audioSource.volume < maxVolume)
                 {
                     audioSource.volume += fadeSpeed * Time.deltaTime;
@@ -68,7 +79,7 @@ public class AudioTrigger : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.gameObject == NewPlayer.Instance.gameObject)
+        if (col.gameObject == player) // Compare with the player GameObject
         {
             if (!triggered)
             {
@@ -84,7 +95,7 @@ public class AudioTrigger : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col == NewPlayer.Instance)
+        if (col.gameObject == player) // Compare with the player GameObject
         {
             triggered = false;
         }

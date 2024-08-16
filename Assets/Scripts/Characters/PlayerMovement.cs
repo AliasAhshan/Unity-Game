@@ -26,9 +26,17 @@ public class PlayerMovement : MonoBehaviour
     [Header("Death Settings")]
     public ParticleSystem deathParticles;
     public AudioClip deathSound;
-    public AudioSource audioSource;
+    public AudioSource audioSource; // This should point to the Player 2 AudioSource
 
-    bool dead = false;
+    [Header("Sound Settings")]
+    public AudioClip jumpSound;     // Sound for jumping
+    public AudioClip landSound;     // Sound for landing
+    public AudioClip footstepSound; // Single sound for each footstep
+
+    public bool dead = false;
+
+    private float footstepTimer = 0f; // Timer to control the footstep rhythm
+    public float footstepInterval = 0.5f; // Time interval between each footstep sound
 
     void Start()
     {
@@ -36,6 +44,16 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         Debug.Log("Player started with health: " + currentHealth);
+
+        // Ensure audioSource is set, even if it's not assigned in the Inspector
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                Debug.LogError("No AudioSource component found on Player 2. Please assign it in the inspector or add an AudioSource component.");
+            }
+        }
     }
 
     void Update()
@@ -49,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             isGrounded = false;
             animator.SetBool("isJumping", !isGrounded);
+            PlayJumpSound();  // Play jump sound
             Debug.Log("Player jumped");
         }
 
@@ -61,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
         {
             ReloadScene();
         }
+
+        HandleFootstepSound(); // Handle footstep sound rhythm
     }
 
     private void FixedUpdate()
@@ -92,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Player collided with a spike");
             if (!dead)
             {
-            StartCoroutine(Die());
+                StartCoroutine(Die());
             }
         }
 
@@ -101,6 +122,8 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Player entered void");
             StartCoroutine(Die());
         }
+
+        PlayLandSound(); // Play land sound after landing
     }
 
     void TogglePauseMenu()
@@ -126,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
     {
         dead = true;
         Debug.Log("Player is dead");
-        
+
         // Ensure death particles and sound play
         if (deathParticles != null)
         {
@@ -140,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (audioSource != null && deathSound != null)
         {
-            audioSource.PlayOneShot(deathSound);
+            audioSource.PlayOneShot(deathSound);  // Play death sound
             Debug.Log("Death sound played");
         }
         else
@@ -163,5 +186,63 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Scene reloading");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // Audio-related methods
+
+    void PlayJumpSound()
+    {
+        if (audioSource != null && jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound); // Play jump sound
+            Debug.Log("Jump sound played");
+        }
+        else
+        {
+            Debug.LogWarning("Audio source or jump sound not assigned");
+        }
+    }
+
+    void PlayLandSound()
+    {
+        if (audioSource != null && landSound != null && isGrounded)
+        {
+            audioSource.PlayOneShot(landSound); // Play landing sound
+            Debug.Log("Land sound played");
+        }
+        else
+        {
+            Debug.LogWarning("Audio source or land sound not assigned");
+        }
+    }
+
+    void HandleFootstepSound()
+    {
+        // Play footstep sound at regular intervals when grounded and moving
+        if (Mathf.Abs(horizontalInput) > 0 && isGrounded)
+        {
+            footstepTimer -= Time.deltaTime;
+            if (footstepTimer <= 0)
+            {
+                PlayFootstepSound();
+                footstepTimer = footstepInterval; // Reset timer
+            }
+        }
+        else
+        {
+            footstepTimer = 0; // Reset timer when not moving
+        }
+    }
+
+    void PlayFootstepSound()
+    {
+        if (audioSource != null && footstepSound != null)
+        {
+            audioSource.PlayOneShot(footstepSound); // Play a single footstep sound
+        }
+        else
+        {
+            Debug.LogWarning("Audio source or footstep sound not assigned");
+        }
     }
 }
