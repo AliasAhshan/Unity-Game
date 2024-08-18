@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject pauseMenu;
 
     [Header("Death Settings")]
-    public ParticleSystem deathParticles;
+    public ParticleSystem deathParticles;  // Particle system for death effect
     public AudioClip deathSound;
     public AudioSource audioSource; // This should point to the Player 2 AudioSource
 
@@ -145,41 +145,62 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator Die()
+    public void Hide(bool hide)
     {
-        dead = true;
-        Debug.Log("Player is dead");
+        // Assuming you have a SpriteRenderer on your player
+        SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();
 
-        // Ensure death particles and sound play
-        if (deathParticles != null)
+        foreach (SpriteRenderer sprite in sprites)
         {
-            deathParticles.Emit(10);
-            Debug.Log("Death particles emitted");
+            sprite.enabled = !hide;  // Disable all sprites if hide is true
         }
-        else
+    }
+
+
+    public IEnumerator Die()
+    {
+        if (!dead)
         {
-            Debug.LogWarning("Death particles not assigned");
+            dead = true;
+
+            // Emit death particles
+            if (deathParticles != null)
+            {
+                deathParticles.Emit(100);  // Emit 10 particles
+            }
+            else
+            {
+                Debug.LogWarning("Death particles not assigned");
+            }
+
+            // Play death sound
+            if (audioSource != null && deathSound != null)
+            {
+                audioSource.PlayOneShot(deathSound);  // Play death sound
+            }
+            else
+            {
+                Debug.LogWarning("Audio source or death sound not assigned");
+            }
+
+            // Hide the player (you can create your own Hide function)
+            Hide(true);  // This function will hide the player from view
+
+            // Slow down time for effect
+            Time.timeScale = 0.6f;
+
+            // Wait for 2 seconds (in real time)
+            yield return new WaitForSecondsRealtime(2f);
+
+            // Reset time scale back to normal
+            Time.timeScale = 1f;
+
+            // Trigger any UI animations for covering the screen, if needed
+            // GameManager.Instance.hud.animator.SetTrigger("coverScreen");
+
+            // Reload the current scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-
-        if (audioSource != null && deathSound != null)
-        {
-            audioSource.PlayOneShot(deathSound);  // Play death sound
-            Debug.Log("Death sound played");
-        }
-        else
-        {
-            Debug.LogWarning("Audio source or death sound not assigned");
-        }
-
-        // Disable player control
-        horizontalInput = 0;
-        rb.velocity = Vector2.zero;
-        enabled = false; // Disable the PlayerMovement script
-
-        yield return new WaitForSeconds(2f);
-
-        Debug.Log("Reloading scene");
-        ReloadScene();
     }
 
     void ReloadScene()
@@ -205,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayLandSound()
     {
-        if (audioSource != null && landSound != null && isGrounded)
+        if (audioSource != null && landSound != null && !isGrounded)
         {
             audioSource.PlayOneShot(landSound); // Play landing sound
             Debug.Log("Land sound played");
