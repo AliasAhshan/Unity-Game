@@ -60,36 +60,79 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
 
-        FlipSprite();
+        // Check if the player is on the ground and handle the jumping animation
+        if (isGrounded && rb.velocity.y <= 0)  // Adjusting the grounded state when y velocity is 0 or negative
+        {
+            animator.SetBool("isJumping", false);
+        }
+        else if (!isGrounded && rb.velocity.y > 0)  // Set jump animation when in the air and moving upward
+        {
+            animator.SetBool("isJumping", true);
+        }
 
+        // Check for jump input
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-            isGrounded = false;
-            animator.SetBool("isJumping", !isGrounded);
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);  // Perform the jump
+            isGrounded = false;  // Mark as not grounded
+            animator.SetBool("isJumping", true);  // Set jump animation
             PlayJumpSound();  // Play jump sound
             Debug.Log("Player jumped");
         }
 
+        // Flip sprite direction based on movement
+        FlipSprite();
+
+        // Handle footstep sounds
+        HandleFootstepSound();
+
+        // Pause the game
         if (Input.GetButtonDown("Cancel"))
         {
             TogglePauseMenu();
         }
 
+        // Check if dead and reload scene
         if (dead && Input.GetButtonDown("Jump"))
         {
             ReloadScene();
         }
-
-        HandleFootstepSound(); // Handle footstep sound rhythm
     }
 
     private void FixedUpdate()
     {
+        // Handle horizontal movement
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+
+        // Set animator velocity parameters
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("yVelocity", rb.velocity.y);
+
+        Vector2 currentVelocity = rb.velocity;
+        currentVelocity.x *= 0.98f;
+
+        rb.velocity = currentVelocity;
+
+        // Check if the player is on the ground by checking velocity and layer collision
+        if (rb.velocity.y <= 0 && isGroundedCheck())  // You need a ground check method
+        {
+            isGrounded = true;
+            animator.SetBool("isJumping", false);
+        }
+        else
+        {
+            isGrounded = false;
+        }
     }
+
+    // A method to check if the player is grounded using a ground check or collision
+    private bool isGroundedCheck()
+    {
+        // Implement a simple raycast or collider check to see if the player is grounded
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f);  // Adjust the distance accordingly
+        return hit.collider != null;
+    }
+
 
     void FlipSprite()
     {
