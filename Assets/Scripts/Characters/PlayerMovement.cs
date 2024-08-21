@@ -106,24 +106,28 @@ public class PlayerMovement : MonoBehaviour
 
         // Set animator velocity parameters
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+
+        // Update the yVelocity parameter in the animator based on the current vertical velocity
         animator.SetFloat("yVelocity", rb.velocity.y);
 
+        // Simulate friction by slowing down the horizontal velocity slightly
         Vector2 currentVelocity = rb.velocity;
         currentVelocity.x *= 0.98f;
-
         rb.velocity = currentVelocity;
 
-        // Check if the player is on the ground by checking velocity and layer collision
-        if (rb.velocity.y <= 0 && isGroundedCheck())  // You need a ground check method
+        // Check if the player is grounded
+        if (rb.velocity.y <= 0 && isGroundedCheck())
         {
             isGrounded = true;
-            animator.SetBool("isJumping", false);
+            animator.SetBool("isJumping", false); // Disable jumping animation when grounded
         }
         else
         {
             isGrounded = false;
+            animator.SetBool("isJumping", true);  // Enable jumping animation when in the air
         }
     }
+
 
     // A method to check if the player is grounded using a ground check or collision
     private bool isGroundedCheck()

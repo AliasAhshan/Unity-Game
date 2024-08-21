@@ -35366,7 +35366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpPower: 7
+  jumpPower: 5
   maxHealth: 10
   currentHealth: 10
   pauseMenu: {fileID: 1844477748}
@@ -35391,8 +35391,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.65309376, y: -8.147807}
-  m_Size: {x: 15.587196, y: 5.0892525}
+  m_Offset: {x: 0.6530938, y: -7.49761}
+  m_Size: {x: 15.587198, y: 3.7888603}
   m_Direction: 1
 --- !u!95 &1927093945
 Animator:
@@ -35453,7 +35453,7 @@ SpriteRenderer:
   m_SortingLayerID: -982654969
   m_SortingLayer: -2
   m_SortingOrder: 24
-  m_Sprite: {fileID: 21300000, guid: 57e6d03b6c8787a489d31bd99323da20, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2cd2c60afc232ba4599a8dd6f17aa90c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -35479,7 +35479,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -39913,11 +39913,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4569125025086690, guid: 927e473a2ba484d75b382fc1faaf0eeb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -56.6215
+      value: -60.3291
       objectReference: {fileID: 0}
     - target: {fileID: 4569125025086690, guid: 927e473a2ba484d75b382fc1faaf0eeb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.443363
+      value: 5.4491754
       objectReference: {fileID: 0}
     - target: {fileID: 4569125025086690, guid: 927e473a2ba484d75b382fc1faaf0eeb, type: 3}
       propertyPath: m_LocalPosition.z
