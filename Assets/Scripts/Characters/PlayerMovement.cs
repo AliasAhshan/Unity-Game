@@ -35,8 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool dead = false;
 
-    private float footstepTimer = 0f; // Timer to control the footstep rhythm
-    public float footstepInterval = 0.5f; // Time interval between each footstep sound
+    //private float footstepTimer = 0f; // Timer to control the footstep rhythm
+    //public float footstepInterval = 0.5f; // Time interval between each footstep sound
 
     void Start()
     {
@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         FlipSprite();
 
         // Handle footstep sounds
-        HandleFootstepSound();
+        //HandleFootstepSound();
 
         // Pause the game
         if (Input.GetButtonDown("Cancel"))
@@ -101,8 +101,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Check if the player is pushing against a wall
+        bool isPushingAgainstWall = IsPushingAgainstWall();
+
         // Handle horizontal movement
-        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        if (isPushingAgainstWall && Mathf.Abs(rb.velocity.y) > 0) // Only restrict horizontal movement when touching and moving against a wall
+        {
+            // Player is pushing against a wall, prevent horizontal movement to allow sliding
+            rb.velocity = new Vector2(0, rb.velocity.y); // Set horizontal velocity to 0 to prevent sticking
+        }
+        else
+        {
+            // Normal horizontal movement
+            rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        }
 
         // Set animator velocity parameters
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
@@ -110,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
         // Update the yVelocity parameter in the animator based on the current vertical velocity
         animator.SetFloat("yVelocity", rb.velocity.y);
 
-        // Simulate friction by slowing down the horizontal velocity slightly
+        // Simulate friction by slightly reducing horizontal velocity
         Vector2 currentVelocity = rb.velocity;
         currentVelocity.x *= 0.98f;
         rb.velocity = currentVelocity;
@@ -124,17 +136,53 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isGrounded = false;
-            animator.SetBool("isJumping", true);  // Enable jumping animation when in the air
+            animator.SetBool("isJumping", true);  // Enable jumping animation when in the air or sliding
         }
     }
+
+
+    private bool IsPushingAgainstWall()
+    {
+        // Cast a ray horizontally from the character's position to check for walls
+        RaycastHit2D wallCheckLeft = Physics2D.Raycast(transform.position, Vector2.left, 0.5f, LayerMask.GetMask("Ground"));
+        RaycastHit2D wallCheckRight = Physics2D.Raycast(transform.position, Vector2.right, 0.5f, LayerMask.GetMask("Ground"));
+
+        // Use surface normal to detect walls (vertical surfaces)
+        if (wallCheckLeft.collider != null && Mathf.Abs(wallCheckLeft.normal.x) > 0.7f)
+        {
+            return true; // Left wall detected
+        }
+
+        if (wallCheckRight.collider != null && Mathf.Abs(wallCheckRight.normal.x) > 0.7f)
+        {
+            return true; // Right wall detected
+        }
+
+        return false; // No wall detected
+    }
+
+
+
+
 
 
     // A method to check if the player is grounded using a ground check or collision
     private bool isGroundedCheck()
     {
-        // Implement a simple raycast or collider check to see if the player is grounded
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f);  // Adjust the distance accordingly
-        return hit.collider != null;
+        Collider2D collider = GetComponent<BoxCollider2D>(); // Use the active collider
+
+        // Get the bottom of the collider (subtract collider's half height from the position)
+        Vector3 rayStart = new Vector3(transform.position.x, transform.position.y - collider.bounds.extents.y, transform.position.z);
+
+        // Set a small raycast length (ensure it's enough to reach the ground)
+        float rayLength = 2f;
+
+        // Cast the ray slightly below the character's collider
+        RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.down, rayLength, LayerMask.GetMask("Ground"));
+
+        Debug.DrawRay(rayStart, Vector2.down * rayLength, Color.red); // Optional: Visualize the raycast in Scene view
+
+        return hit.collider != null; // Return true if the ray hits a collider (ground)
     }
 
 
@@ -213,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
             // Emit death particles
             if (deathParticles != null)
             {
-                deathParticles.Emit(100);  // Emit 10 particles
+                deathParticles.Emit(30);  // Emit 10 particles
             }
             else
             {
@@ -284,33 +332,40 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void HandleFootstepSound()
-    {
-        // Play footstep sound at regular intervals when grounded and moving
-        if (Mathf.Abs(horizontalInput) > 0 && isGrounded)
-        {
-            footstepTimer -= Time.deltaTime;
-            if (footstepTimer <= 0)
-            {
-                PlayFootstepSound();
-                footstepTimer = footstepInterval; // Reset timer
-            }
-        }
-        else
-        {
-            footstepTimer = 0; // Reset timer when not moving
-        }
-    }
+    // void HandleFootstepSound()
+    // {
+    //     // Play footstep sound at regular intervals when grounded and moving
+    //     if (Mathf.Abs(horizontalInput) > 0 && isGrounded)
+    //     {
+    //         footstepTimer -= Time.deltaTime;
+    //         if (footstepTimer <= 0)
+    //         {
+    //             PlayFootstepSound();
+    //             footstepTimer = footstepInterval; // Reset timer
+    //         }
+    //     }
+    //     else
+    //     {
+    //         footstepTimer = 0; // Reset timer when not moving
+    //     }
+    // }
 
     void PlayFootstepSound()
     {
-        if (audioSource != null && footstepSound != null)
+        if (isGrounded) // Ensure the player is grounded before playing the sound
         {
-            audioSource.PlayOneShot(footstepSound); // Play a single footstep sound
-        }
-        else
-        {
-            Debug.LogWarning("Audio source or footstep sound not assigned");
+            if (!audioSource.isPlaying) // Only play the sound if it's not already playing
+            {
+                if (audioSource != null && footstepSound != null)
+                {
+                    audioSource.PlayOneShot(footstepSound); // Play footstep sound only when grounded
+                }
+                else
+                {
+                    Debug.LogWarning("Audio source or footstep sound not assigned");
+                }
+            }
         }
     }
+   
 }
