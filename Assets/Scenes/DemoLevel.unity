@@ -5648,7 +5648,7 @@ ParticleSystemRenderer:
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 0.5
+  m_MaxParticleSize: 0.01
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -11656,14 +11656,17 @@ PolygonCollider2D:
       - {x: -38.535, y: 0.77}
       - {x: -38.565, y: 0.96999997}
       - {x: -38.614998, y: 1.03}
-      - {x: -38.855, y: 1.0699999}
-      - {x: -38.945, y: 1.16}
-      - {x: -38.975, y: 1.17}
-      - {x: -39.425, y: 1.17}
-      - {x: -39.684998, y: 1.15}
-      - {x: -39.934998, y: 1.12}
-      - {x: -39.995, y: 1.06}
-      - {x: -40.235, y: 0.96999997}
+      - {x: -38.801918, y: 1.0021944}
+      - {x: -38.906864, y: 1.0620208}
+      - {x: -38.960957, y: 1.1280836}
+      - {x: -38.99096, y: 1.1580313}
+      - {x: -39.3851, y: 1.1460627}
+      - {x: -39.653084, y: 1.1300522}
+      - {x: -39.957016, y: 1.1180748}
+      - {x: -40.06654, y: 1.1122782}
+      - {x: -40.191288, y: 1.1035345}
+      - {x: -40.26338, y: 1.0986784}
+      - {x: -40.265408, y: 0.9925625}
       - {x: -40.285, y: 0.88}
       - {x: -40.285, y: -0.24}
       - {x: -40.225, y: -0.34}
@@ -26420,7 +26423,7 @@ PrefabInstance:
     - target: {fileID: -8817389483905013753, guid: e6cc8fded6a010a4182e2ac077988d10,
         type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -8767501428631963891, guid: e6cc8fded6a010a4182e2ac077988d10,
         type: 3}
@@ -26675,7 +26678,7 @@ PrefabInstance:
     - target: {fileID: 2015492574520372761, guid: e6cc8fded6a010a4182e2ac077988d10,
         type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2418288176792809881, guid: e6cc8fded6a010a4182e2ac077988d10,
         type: 3}
@@ -35425,14 +35428,14 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927093942}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.6530938, y: -7.48557}
-  m_Size: {x: 15.587201, y: 3.7647824}
+  m_Offset: {x: 0.84974974, y: -7.4855704}
+  m_Size: {x: 5.8354445, y: 3.765132}
   m_Direction: 1
 --- !u!95 &1927093945
 Animator:

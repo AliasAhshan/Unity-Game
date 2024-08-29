@@ -35,9 +35,6 @@ public class PlayerMovement : MonoBehaviour
 
     public bool dead = false;
 
-    //private float footstepTimer = 0f; // Timer to control the footstep rhythm
-    //public float footstepInterval = 0.5f; // Time interval between each footstep sound
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -84,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         FlipSprite();
 
         // Handle footstep sounds
-        //HandleFootstepSound();
+        HandleFootstepSound();
 
         // Pause the game
         if (Input.GetButtonDown("Cancel"))
@@ -104,15 +101,26 @@ public class PlayerMovement : MonoBehaviour
         // Check if the player is pushing against a wall
         bool isPushingAgainstWall = IsPushingAgainstWall();
 
+        // Check if the player is pushing against the ground
+        bool isPushingAgainstGround = IsPushingAgainstGround();
+
+        // Determine if the character is moving away from the wall or ground
+        bool isMovingAwayFromObstacle = (horizontalInput > 0 && !isFacingRight) || (horizontalInput < 0 && isFacingRight);
+
         // Handle horizontal movement
-        if (isPushingAgainstWall && Mathf.Abs(rb.velocity.y) > 0) // Only restrict horizontal movement when touching and moving against a wall
+        if ((isPushingAgainstWall || isPushingAgainstGround) && Mathf.Abs(rb.velocity.y) > 0 && !isMovingAwayFromObstacle)
         {
-            // Player is pushing against a wall, prevent horizontal movement to allow sliding
+            // Player is pushing against a wall or ground and not moving away, prevent horizontal movement to allow sliding
             rb.velocity = new Vector2(0, rb.velocity.y); // Set horizontal velocity to 0 to prevent sticking
+        }
+        else if (isMovingAwayFromObstacle)
+        {
+            // If moving away from the obstacle, ensure normal horizontal movement
+            rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
         }
         else
         {
-            // Normal horizontal movement
+            // Normal horizontal movement when not pushing against anything
             rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
         }
 
@@ -138,32 +146,73 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
             animator.SetBool("isJumping", true);  // Enable jumping animation when in the air or sliding
         }
+
+        // Stop the footstep sound if the player is not moving horizontally
+        if (Mathf.Abs(horizontalInput) == 0 && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
+
+
 
 
     private bool IsPushingAgainstWall()
     {
-        // Cast a ray horizontally from the character's position to check for walls
-        RaycastHit2D wallCheckLeft = Physics2D.Raycast(transform.position, Vector2.left, 0.5f, LayerMask.GetMask("Ground"));
-        RaycastHit2D wallCheckRight = Physics2D.Raycast(transform.position, Vector2.right, 0.5f, LayerMask.GetMask("Ground"));
+        // Define offsets for multiple raycasts at different heights on the body
+        float[] raycastOffsets = { 0.1f, 0.5f, 1f }; // Adjust these values based on your character's height
 
-        // Use surface normal to detect walls (vertical surfaces)
-        if (wallCheckLeft.collider != null && Mathf.Abs(wallCheckLeft.normal.x) > 0.7f)
+        bool wallDetected = false;
+
+        foreach (float offset in raycastOffsets)
         {
-            return true; // Left wall detected
+            // Get the starting points for the raycasts (lower on the character)
+            Vector3 rayStartLeft = new Vector3(transform.position.x, transform.position.y - offset, transform.position.z);
+            Vector3 rayStartRight = new Vector3(transform.position.x, transform.position.y - offset, transform.position.z);
+
+            // Cast rays horizontally from the lower positions to check for walls
+            RaycastHit2D wallCheckLeft = Physics2D.Raycast(rayStartLeft, Vector2.left, 0.5f, LayerMask.GetMask("Platform"));
+            RaycastHit2D wallCheckRight = Physics2D.Raycast(rayStartRight, Vector2.right, 0.5f, LayerMask.GetMask("Platform"));
+
+            Debug.DrawRay(rayStartLeft, Vector2.left * 0.5f, Color.blue); // Visualize the left raycast in Scene view
+            Debug.DrawRay(rayStartRight, Vector2.right * 0.5f, Color.blue); // Visualize the right raycast in Scene view
+
+            // Use surface normal to detect walls (vertical surfaces)
+            bool leftWall = wallCheckLeft.collider != null && Mathf.Abs(wallCheckLeft.normal.x) > 0.7f;
+            bool rightWall = wallCheckRight.collider != null && Mathf.Abs(wallCheckRight.normal.x) > 0.7f;
+
+            if (leftWall || rightWall)
+            {
+                wallDetected = true;
+                break; // Exit the loop early if a wall is detected at any height
+            }
         }
 
-        if (wallCheckRight.collider != null && Mathf.Abs(wallCheckRight.normal.x) > 0.7f)
-        {
-            return true; // Right wall detected
-        }
-
-        return false; // No wall detected
+        return wallDetected; // Return true if any ray detects a wall
     }
 
+    private bool IsPushingAgainstGround()
+    {
+        // Adjust the offset to cast the ray from a lower or higher point on the body
+        float raycastOffset = 0.7f; // Adjust this value to change where the ray starts on the body
 
+        // Get the starting points for the raycasts (lower on the character)
+        Vector3 rayStartLeft = new Vector3(transform.position.x, transform.position.y - raycastOffset, transform.position.z);
+        Vector3 rayStartRight = new Vector3(transform.position.x, transform.position.y - raycastOffset, transform.position.z);
 
+        // Cast rays horizontally from the lower positions to check for walls
+        RaycastHit2D wallCheckLeft = Physics2D.Raycast(rayStartLeft, Vector2.left, 0.3f, LayerMask.GetMask("Ground"));
+        RaycastHit2D wallCheckRight = Physics2D.Raycast(rayStartRight, Vector2.right, 0.3f, LayerMask.GetMask("Ground"));
 
+        Debug.DrawRay(rayStartLeft, Vector2.left * 0.5f, Color.blue); // Visualize the left raycast in Scene view
+        Debug.DrawRay(rayStartRight, Vector2.right * 0.5f, Color.blue); // Visualize the right raycast in Scene view
+
+        // Use surface normal to detect walls (vertical surfaces)
+        bool leftWall = wallCheckLeft.collider != null && Mathf.Abs(wallCheckLeft.normal.x) > 0.7f;
+        bool rightWall = wallCheckRight.collider != null && Mathf.Abs(wallCheckRight.normal.x) > 0.7f;
+
+        return leftWall || rightWall; // Return true if either wall is detected
+    }
 
 
     // A method to check if the player is grounded using a ground check or collision
@@ -178,13 +227,12 @@ public class PlayerMovement : MonoBehaviour
         float rayLength = 2f;
 
         // Cast the ray slightly below the character's collider
-        RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.down, rayLength, LayerMask.GetMask("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.down, rayLength, LayerMask.GetMask("Ground", "Platform"));
 
         Debug.DrawRay(rayStart, Vector2.down * rayLength, Color.red); // Optional: Visualize the raycast in Scene view
 
         return hit.collider != null; // Return true if the ray hits a collider (ground)
     }
-
 
     void FlipSprite()
     {
@@ -251,7 +299,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     public IEnumerator Die()
     {
         if (!dead)
@@ -261,7 +308,7 @@ public class PlayerMovement : MonoBehaviour
             // Emit death particles
             if (deathParticles != null)
             {
-                deathParticles.Emit(30);  // Emit 10 particles
+                deathParticles.Emit(70);  // Emit 10 particles
             }
             else
             {
@@ -332,23 +379,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // void HandleFootstepSound()
-    // {
-    //     // Play footstep sound at regular intervals when grounded and moving
-    //     if (Mathf.Abs(horizontalInput) > 0 && isGrounded)
-    //     {
-    //         footstepTimer -= Time.deltaTime;
-    //         if (footstepTimer <= 0)
-    //         {
-    //             PlayFootstepSound();
-    //             footstepTimer = footstepInterval; // Reset timer
-    //         }
-    //     }
-    //     else
-    //     {
-    //         footstepTimer = 0; // Reset timer when not moving
-    //     }
-    // }
+    void HandleFootstepSound()
+    {
+        // Play footstep sound if grounded and moving
+        if (Mathf.Abs(horizontalInput) > 0 && isGrounded)
+        {
+            PlayFootstepSound();
+        }
+        // else if (audioSource.isPlaying)
+        // {
+        //     audioSource.Stop(); // Stop the footstep sound if the player stops moving
+        // }
+    }
 
     void PlayFootstepSound()
     {
@@ -367,5 +409,4 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-   
 }
