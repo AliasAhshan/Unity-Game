@@ -12,6 +12,7 @@ public class Startup : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+        Debug.Log("Game Started");
         if (dontDestroyOnLoad)
         {
             DontDestroyOnLoad(gameObject);

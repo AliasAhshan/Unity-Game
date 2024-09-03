@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float slideSpeed = 8f; // Speed during slide
     public float slideDuration = 0.5f; // Duration of the slide
 
+    public GameObject saveGamePopup;
+
     bool isSliding = false; // To track if the player is currently sliding
 
     BoxCollider2D boxCollider; // To reference the player's collider
@@ -43,9 +45,13 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip footstepSound; // Single sound for each footstep
 
     public bool dead = false;
+    public bool canMove = true;
 
     void Start()
     {
+        SaveSystem.DeleteSave();
+
+        // Optionally reload the scene
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -66,10 +72,18 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogError("No AudioSource component found on Player 2. Please assign it in the inspector or add an AudioSource component.");
             }
         }
+
+        if (SaveSystem.LoadGame() != null)
+        {
+            LoadGame();
+        }
+
     }
 
     void Update()
     {
+        if (!canMove) return;
+
         horizontalInput = Input.GetAxis("Horizontal");
 
         // Check if the player is on the ground and handle the jumping animation
@@ -130,6 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canMove) return;
+
         // Check if the player is pushing against a wall
         bool isPushingAgainstWall = IsPushingAgainstWall();
 
@@ -192,6 +208,60 @@ public class PlayerMovement : MonoBehaviour
             audioSource.Stop();
         }
     }
+
+    void ShowSaveGamePopup()
+    {
+        Debug.Log("Showing Save Game Popup");
+        canMove = false;  // Disable player movement
+        saveGamePopup.SetActive(true);
+        Time.timeScale = 0f; // Pause the game
+        Debug.Log("Game Paused");
+    }
+
+    public void OnSaveGameYes()
+    {
+        Debug.Log("Button Clicked");
+        Debug.Log("Saving Game");
+        SaveGame();
+        saveGamePopup.SetActive(false);
+        Time.timeScale = 1f; // Resume the game
+        canMove = true; // Re-enable player movement
+        Debug.Log("Game Resumed");
+    }
+
+    public void OnSaveGameNo()
+    {
+        Debug.Log("Button Clicked");
+        Debug.Log("Cancel Saving Game");
+        saveGamePopup.SetActive(false);
+        Time.timeScale = 1f; // Resume the game
+        canMove = true; // Re-enable player movement
+    }
+
+    void SaveGame()
+    {
+        Vector2 playerPosition = transform.position;
+        int health = currentHealth;
+        SaveSystem.SaveGame(playerPosition, health);
+    }
+
+    void LoadGame()
+    {
+        GameData data = SaveSystem.LoadGame();
+        if (data != null)
+        {
+            transform.position = data.playerPosition;
+            currentHealth = data.currentHealth;
+            // Load other relevant fields
+        }
+    }
+
+    void RestartGame()
+    {
+        SaveSystem.DeleteSave();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
 
     private IEnumerator Slide()
@@ -337,6 +407,14 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Player entered void");
             StartCoroutine(Die());
+        }
+
+
+        Debug.Log("Entered Trigger Zone with: " + collision.gameObject.name);
+        if (collision.gameObject.layer == LayerMask.NameToLayer("SavePoint"))
+        {
+            collision.GetComponent<Collider2D>().enabled = false;
+            ShowSaveGamePopup();
         }
 
         PlayLandSound(); // Play land sound after landing
