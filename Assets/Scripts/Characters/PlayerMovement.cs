@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        SaveSystem.DeleteSave();
+        //SaveSystem.DeleteSave();
 
         // Optionally reload the scene
         rb = GetComponent<Rigidbody2D>();
@@ -250,11 +250,19 @@ public class PlayerMovement : MonoBehaviour
         GameData data = SaveSystem.LoadGame();
         if (data != null)
         {
-            transform.position = data.playerPosition;
+            Vector2 adjustedPosition = data.playerPosition;
+            adjustedPosition.x += 2.0f; // Adjust this value as needed to place the player just outside the save zone
+            transform.position = adjustedPosition;
             currentHealth = data.currentHealth;
-            // Load other relevant fields
+
+            Debug.Log("Game loaded, player position: " + data.playerPosition);
+            Debug.Log("Game loaded, player health: " + data.currentHealth);
+
+            // Ensure the camera or any other systems are updated with the loaded state
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
         }
     }
+
 
     void RestartGame()
     {
