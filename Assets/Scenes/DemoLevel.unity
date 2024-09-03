@@ -26450,6 +26450,11 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -982654969
       objectReference: {fileID: 0}
+    - target: {fileID: -7272534532529088131, guid: e6cc8fded6a010a4182e2ac077988d10,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.6
+      objectReference: {fileID: 0}
     - target: {fileID: -7100814316515973525, guid: e6cc8fded6a010a4182e2ac077988d10,
         type: 3}
       propertyPath: m_SortingLayer
@@ -35411,6 +35416,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpPower: 5
+  slideSpeed: 8
+  slideDuration: 0.5
   maxHealth: 10
   currentHealth: 10
   pauseMenu: {fileID: 1844477748}
@@ -39956,11 +39963,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4569125025086690, guid: 927e473a2ba484d75b382fc1faaf0eeb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -60.330566
+      value: -60.341103
       objectReference: {fileID: 0}
     - target: {fileID: 4569125025086690, guid: 927e473a2ba484d75b382fc1faaf0eeb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.517156
+      value: 4.5171723
       objectReference: {fileID: 0}
     - target: {fileID: 4569125025086690, guid: 927e473a2ba484d75b382fc1faaf0eeb, type: 3}
       propertyPath: m_LocalPosition.z

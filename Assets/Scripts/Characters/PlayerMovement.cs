@@ -8,6 +8,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f; // Speed of the player
     public float jumpPower = 5f; // Jump power of the player
+    public float slideSpeed = 8f; // Speed during slide
+    public float slideDuration = 0.5f; // Duration of the slide
+
+    bool isSliding = false; // To track if the player is currently sliding
+
+    BoxCollider2D boxCollider; // To reference the player's collider
+    Vector2 originalColliderSize; // Store the original size of the collider
+    Vector2 originalColliderOffset; // Store the original offset of the collider
+
 
     float horizontalInput;
     bool isFacingRight = true;
@@ -39,6 +48,12 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+
+        // Store the original collider size and offset
+        originalColliderSize = boxCollider.size;
+        originalColliderOffset = boxCollider.offset;
+
         currentHealth = maxHealth;
         Debug.Log("Player started with health: " + currentHealth);
 
@@ -66,6 +81,23 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("isJumping", true);
         }
+
+        // Handle sliding input (trigger on key press, not hold)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
+        {
+            StartCoroutine(Slide());
+        }
+
+        // Handle jumping animation
+        if (isGrounded && rb.velocity.y <= 0 && !isSliding)
+        {
+            animator.SetBool("isJumping", false);
+        }
+        else if (!isGrounded && rb.velocity.y > 0 && !isSliding)
+        {
+            animator.SetBool("isJumping", true);
+        }
+
 
         // Check for jump input
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -106,6 +138,13 @@ public class PlayerMovement : MonoBehaviour
 
         // Determine if the character is moving away from the wall or ground
         bool isMovingAwayFromObstacle = (horizontalInput > 0 && !isFacingRight) || (horizontalInput < 0 && isFacingRight);
+
+        if (animator.GetBool("isSliding"))
+        {
+            // Sliding is handled in the Slide() coroutine
+            return; // Skip other movement code while sliding
+        }
+
 
         // Handle horizontal movement
         if ((isPushingAgainstWall || isPushingAgainstGround) && Mathf.Abs(rb.velocity.y) > 0 && !isMovingAwayFromObstacle)
@@ -154,6 +193,40 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    private IEnumerator Slide()
+    {
+        isSliding = true;
+        animator.SetBool("isSliding", true);
+
+        // Reduce collider size during slide
+        boxCollider.size = new Vector2(boxCollider.size.x, boxCollider.size.y / 6);
+        boxCollider.offset = new Vector2(boxCollider.offset.x, boxCollider.offset.y - (originalColliderSize.y - boxCollider.size.y) / 2); // Adjust offset to prevent dipping
+
+        // Calculate the direction of the slide based on the character's facing direction
+        float slideDirection = isFacingRight ? 1f : -1f;
+
+        // Apply forward movement without downward force
+        rb.velocity = new Vector2(slideDirection * moveSpeed * 1.5f, rb.velocity.y); // No vertical change
+
+        // Wait for the duration of the slide
+        yield return new WaitForSeconds(slideDuration);
+
+        // Restore collider size after slide
+        boxCollider.size = originalColliderSize;
+        boxCollider.offset = originalColliderOffset;
+
+        isSliding = false;
+        animator.SetBool("isSliding", false);
+
+        // Ensure the player is grounded after sliding
+        yield return new WaitForFixedUpdate();
+        if (isGroundedCheck())
+        {
+            isGrounded = true;
+            animator.SetBool("isJumping", false);
+        }
+    }
 
 
 
