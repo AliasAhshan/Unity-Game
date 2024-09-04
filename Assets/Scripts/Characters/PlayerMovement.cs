@@ -20,11 +20,11 @@ public class PlayerMovement : MonoBehaviour
     Vector2 originalColliderOffset; // Store the original offset of the collider
 
 
-    float horizontalInput;
+    public float horizontalInput;
     bool isFacingRight = true;
     bool isGrounded = false;
 
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     Animator animator;
 
     [Header("Health Settings")]
@@ -258,6 +258,12 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Game loaded, player position: " + data.playerPosition);
             Debug.Log("Game loaded, player health: " + data.currentHealth);
 
+            InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
+            if (insanityMechanic != null)
+            {
+                insanityMechanic.EnableInsanityMechanic(); // Re-enable insanity mechanic after respawn
+            }
+
             // Ensure the camera or any other systems are updated with the loaded state
             Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
         }
@@ -423,6 +429,14 @@ public class PlayerMovement : MonoBehaviour
         {
             collision.GetComponent<Collider2D>().enabled = false;
             ShowSaveGamePopup();
+
+        // Enable the insanity mechanic
+        InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
+        if (insanityMechanic != null)
+        {
+            insanityMechanic.EnableInsanityMechanic();
+        }
+
         }
 
         PlayLandSound(); // Play land sound after landing
