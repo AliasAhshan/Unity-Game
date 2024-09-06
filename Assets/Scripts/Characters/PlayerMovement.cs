@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 5f; // Speed of the player
+    public float moveSpeed = 5f; // Speed of the player]
+    public float mobileMoveSpeed = 5f;
     public float jumpPower = 5f; // Jump power of the player
     public float slideSpeed = 8f; // Speed during slide
     public float slideDuration = 0.5f; // Duration of the slide
@@ -46,6 +47,9 @@ public class PlayerMovement : MonoBehaviour
 
     public bool dead = false;
     public bool canMove = true;
+
+    private float mobileHorizontalInput = 0f;  // Store horizontal input for mobile
+    private bool usingMobileInput = false;  // Track if mobile input is being used
 
     void Start()
     {
@@ -146,6 +150,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canMove) return;
 
+        if (usingMobileInput)
+        {
+            horizontalInput = mobileHorizontalInput;
+        }
+        else
+        {
+            // Handle keyboard input for movement when not using mobile input
+            horizontalInput = Input.GetAxis("Horizontal");
+        }
+
+        FlipSprite();
+
         // Check if the player is pushing against a wall
         bool isPushingAgainstWall = IsPushingAgainstWall();
 
@@ -176,7 +192,9 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // Normal horizontal movement when not pushing against anything
-            rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+            float appliedMoveSpeed = usingMobileInput ? mobileMoveSpeed : moveSpeed;
+            rb.velocity = new Vector2(horizontalInput * appliedMoveSpeed, rb.velocity.y);
+
         }
 
         // Set animator velocity parameters
@@ -189,6 +207,17 @@ public class PlayerMovement : MonoBehaviour
         Vector2 currentVelocity = rb.velocity;
         currentVelocity.x *= 0.98f;
         rb.velocity = currentVelocity;
+
+        Debug.Log("Player Velocity: " + rb.velocity);
+
+        if (usingMobileInput)
+        {
+            Debug.Log("Using Mobile Input: " + horizontalInput);
+        }
+        else
+        {
+            Debug.Log("Using Keyboard Input: " + horizontalInput);
+        }
 
         // Check if the player is grounded
         if (rb.velocity.y <= 0 && isGroundedCheck())
@@ -215,6 +244,21 @@ public class PlayerMovement : MonoBehaviour
         canMove = false;  // Disable player movement
         saveGamePopup.SetActive(true);
         Time.timeScale = 0f; // Pause the game
+
+        // Disable mobile controls during the save popup
+        MobileControls mobileControls = FindObjectOfType<MobileControls>();
+        if (mobileControls != null)
+        {
+            mobileControls.EnableMobileControls(false);  // Disable mobile buttons
+        }
+
+        // Pause Insanity Mechanic
+        InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
+        if (insanityMechanic != null)
+        {
+            insanityMechanic.ResetInsanity();  // Reset insanity mechanic when saving
+        }
+
         Debug.Log("Game Paused");
     }
 
@@ -226,7 +270,16 @@ public class PlayerMovement : MonoBehaviour
         saveGamePopup.SetActive(false);
         Time.timeScale = 1f; // Resume the game
         canMove = true; // Re-enable player movement
+
+        // Re-enable mobile controls after the popup
+        MobileControls mobileControls = FindObjectOfType<MobileControls>();
+        if (mobileControls != null)
+        {
+            mobileControls.EnableMobileControls(true);
+        }
+
         Debug.Log("Game Resumed");
+        
     }
 
     public void OnSaveGameNo()
@@ -236,7 +289,19 @@ public class PlayerMovement : MonoBehaviour
         saveGamePopup.SetActive(false);
         Time.timeScale = 1f; // Resume the game
         canMove = true; // Re-enable player movement
+
+        // Re-enable mobile controls after the popup
+        MobileControls mobileControls = FindObjectOfType<MobileControls>();
+        if (mobileControls != null)
+        {
+            mobileControls.EnableMobileControls(true);
+        }
     }
+
+
+
+
+
 
     void SaveGame()
     {
@@ -251,7 +316,7 @@ public class PlayerMovement : MonoBehaviour
         if (data != null)
         {
             Vector2 adjustedPosition = data.playerPosition;
-            adjustedPosition.x += 2.0f; // Adjust this value as needed to place the player just outside the save zone
+            adjustedPosition.x += 2.5f; // Adjust this value as needed to place the player just outside the save zone
             transform.position = adjustedPosition;
             currentHealth = data.currentHealth;
 
@@ -261,13 +326,22 @@ public class PlayerMovement : MonoBehaviour
             InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
             if (insanityMechanic != null)
             {
-                insanityMechanic.EnableInsanityMechanic(); // Re-enable insanity mechanic after respawn
+                insanityMechanic.ResetInsanity(); // Ensure insanity is properly reset
+                insanityMechanic.EnableInsanityMechanic(); // Re-enable insanity mechanic after reload
+            }
+
+            // Re-enable mobile controls after reload
+            MobileControls mobileControls = FindObjectOfType<MobileControls>();
+            if (mobileControls != null)
+            {
+                mobileControls.EnableMobileControls(true); // Ensure mobile controls stay active after load
             }
 
             // Ensure the camera or any other systems are updated with the loaded state
             Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
         }
     }
+
 
 
     void RestartGame()
@@ -312,7 +386,37 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetMobileHorizontalInput(float input)
+    {
+        mobileHorizontalInput = input;
+        usingMobileInput = (input != 0f);  // Use mobile input only when there's non-zero input
+        Debug.Log("Mobile Horizontal Input Set: " + mobileHorizontalInput);
+    }
 
+        public void StopUsingMobileInput()
+    {
+        usingMobileInput = false;
+    }
+
+    public void SlideMobile()
+    {
+        if (!isSliding && isGrounded)
+        {
+            StartCoroutine(Slide());  // Trigger the slide animation and movement
+        }
+    }
+
+    public void Jump()
+    {
+        if (isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);  // Apply vertical velocity for jumping
+            isGrounded = false;  // Mark as not grounded
+            animator.SetBool("isJumping", true);  // Set jump animation
+            PlayJumpSound();  // Play jump sound
+            Debug.Log("Player jumped");
+        }
+    }
 
     private bool IsPushingAgainstWall()
     {
@@ -393,14 +497,24 @@ public class PlayerMovement : MonoBehaviour
 
     void FlipSprite()
     {
-        if (isFacingRight && horizontalInput < 0f || !isFacingRight && horizontalInput > 0f)
+        if (horizontalInput > 0 && !isFacingRight)
         {
-            isFacingRight = !isFacingRight;
+            // Flip to the right
+            isFacingRight = true;
             Vector3 ls = transform.localScale;
-            ls.x *= -1f;
+            ls.x = Mathf.Abs(ls.x);  // Ensure it's positive
+            transform.localScale = ls;
+        }
+        else if (horizontalInput < 0 && isFacingRight)
+        {
+            // Flip to the left
+            isFacingRight = false;
+            Vector3 ls = transform.localScale;
+            ls.x = -Mathf.Abs(ls.x);  // Ensure it's negative
             transform.localScale = ls;
         }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -430,13 +544,13 @@ public class PlayerMovement : MonoBehaviour
             collision.GetComponent<Collider2D>().enabled = false;
             ShowSaveGamePopup();
 
-        // Enable the insanity mechanic
-        InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
-        if (insanityMechanic != null)
-        {
-            insanityMechanic.EnableInsanityMechanic();
-        }
-
+            // Enable the insanity mechanic
+            InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
+            if (insanityMechanic != null)
+            {
+                Debug.Log("Calling EnableInsanityMechanic");
+                insanityMechanic.EnableInsanityMechanic();  // This should trigger after save point
+            }
         }
 
         PlayLandSound(); // Play land sound after landing
@@ -521,8 +635,25 @@ public class PlayerMovement : MonoBehaviour
     void ReloadScene()
     {
         Debug.Log("Scene reloading");
+        
+        // Reset the insanity mechanic
+        InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
+        if (insanityMechanic != null)
+        {
+            insanityMechanic.ResetInsanity(); // Ensure insanity is properly reset
+            insanityMechanic.EnableInsanityMechanic(); // Re-enable insanity mechanic after reload
+        }
+
+        // Re-enable mobile controls after reload
+        MobileControls mobileControls = FindObjectOfType<MobileControls>();
+        if (mobileControls != null)
+        {
+            mobileControls.EnableMobileControls(true);
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
 
     // Audio-related methods
 

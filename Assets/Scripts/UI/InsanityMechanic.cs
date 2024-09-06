@@ -27,13 +27,15 @@ public class InsanityMechanic : MonoBehaviour
         insanityOverlay.color = new Color(0, 0, 0, 0); // Start with a transparent overlay
         insanityOverlay.raycastTarget = false; // Disable raycast target on the overlay
         playerMovementScript = GetComponent<PlayerMovement>();
+
     }
 
     void Update()
     {
         if (!insanityMechanicEnabled)
         {
-            return; // Exit if the mechanic is not enabled
+            Debug.Log("Insanity Mechanic is disabled.");
+            //return; // Exit if the mechanic is not enabled
         }
 
         // Check if the player is moving
@@ -41,9 +43,12 @@ public class InsanityMechanic : MonoBehaviour
 
         if (!isPlayerMoving)
         {
-            timeStill += Time.deltaTime;
+            Debug.Log("Player is still. Time still: " + timeStill);
+            timeStill += Time.deltaTime;  // Increase the timer when player is still
             if (timeStill >= timeBeforeInsanity && !isInsanityActive)
             {
+                // Start the insanity coroutine
+                Debug.Log("Starting Insanity Mechanic.");
                 insanityCoroutine = StartCoroutine(StartInsanity());
             }
         }
@@ -51,22 +56,38 @@ public class InsanityMechanic : MonoBehaviour
         {
             if (isInsanityActive)
             {
-                ResetInsanity();
+                Debug.Log("Player moved, resetting insanity.");
+                ResetInsanity();  // Fully reset the insanity when the player moves
             }
-
-            // Fully reset the timer and the mechanic if the player moves
-            StopInsanityEffect();
+            
+            StopInsanityEffect();  // Ensure the insanity effect is stopped when the player moves
         }
     }
+
+
+
+
 
     private IEnumerator StartInsanity()
     {
         isInsanityActive = true;
 
+        // Store the initial position of the overlay to reset after shake
+        Vector3 initialOverlayPosition = insanityOverlay.transform.localPosition;
+
+        // Set a reasonable shake limit
+        float shakeLimit = 100f;
+
         while (insanityOverlay.color.a < 1f)
         {
-            // Apply camera shake
-            mainCamera.transform.localPosition = originalCameraPosition + Random.insideUnitSphere * cameraShakeAmount;
+            // Apply shake to the overlay with controlled shake magnitude
+            Vector3 shakeOffset = (Vector3)(Random.insideUnitCircle * cameraShakeAmount);
+
+            shakeOffset.x = Mathf.Clamp(shakeOffset.x, -shakeLimit, shakeLimit);
+            shakeOffset.y = Mathf.Clamp(shakeOffset.y, -shakeLimit, shakeLimit);
+
+            // Apply the clamped shake offset to the overlay
+            insanityOverlay.transform.localPosition = initialOverlayPosition + shakeOffset;
 
             // Fade to black
             insanityOverlay.color = new Color(0, 0, 0, insanityOverlay.color.a + fadeSpeed * Time.deltaTime);
@@ -75,35 +96,68 @@ public class InsanityMechanic : MonoBehaviour
             if (insanityOverlay.color.a >= 1f)
             {
                 playerMovementScript.StartCoroutine(playerMovementScript.Die());
+                break;
             }
 
             yield return null;
         }
+
+        // Reset the overlay position after the insanity ends
+        insanityOverlay.transform.localPosition = initialOverlayPosition;
+
+        // Reset the overlay alpha
+        insanityOverlay.color = new Color(0, 0, 0, 0); 
     }
 
-    private void ResetInsanity()
+
+
+
+    public void ResetInsanity()
     {
-        // Reset insanity and fade effect
+        // Reset insanity-related variables but don't disable the mechanic
         isInsanityActive = false;
-        timeStill = 0f; // Fully reset the timer
-        insanityOverlay.color = new Color(0, 0, 0, 0); // Reset the overlay to transparent
-        mainCamera.transform.localPosition = originalCameraPosition; // Reset the camera position
+        timeStill = 0f;
+        insanityOverlay.color = new Color(0, 0, 0, 0); // Reset overlay to transparent
+        mainCamera.transform.localPosition = originalCameraPosition; // Reset camera shake
+        
+        // Do NOT disable the mechanic here
+        // insanityMechanicEnabled = false; // Removing this line to keep the mechanic active
     }
 
-    private void StopInsanityEffect()
+
+
+
+    public void StopInsanityEffect()
     {
-        // Stop the insanity coroutine if it's running and reset everything
         if (insanityCoroutine != null)
         {
-            StopCoroutine(insanityCoroutine);
-            insanityCoroutine = null; // Clear the reference
+            StopCoroutine(insanityCoroutine); // Stop insanity coroutine
+            insanityCoroutine = null;  // Clear reference
         }
 
-        ResetInsanity(); // Ensure everything is reset
+        // We no longer call ResetInsanity() here, to prevent it from affecting the UI
+        // Instead, we manually reset only the necessary insanity variables
+        isInsanityActive = false;
+        timeStill = 0f; // Reset the timer
+        insanityOverlay.color = new Color(0, 0, 0, 0);  // Reset the insanity overlay without affecting UI
     }
+
 
     public void EnableInsanityMechanic()
     {
-        insanityMechanicEnabled = true; // Enable the insanity mechanic after the save point
+        insanityMechanicEnabled = true;  // Enable the insanity mechanic
+        isInsanityActive = false;  // Ensure the insanity is not active at the start
+        timeStill = 0f;  // Reset the timeStill timer
+        if (insanityCoroutine != null)
+        {
+            //StopCoroutine(insanityCoroutine);  // Stop any running insanity coroutine
+            insanityCoroutine = null;
+        }
+        insanityOverlay.color = new Color(0, 0, 0, 0);  // Ensure the overlay is reset to fully transparent
+        mainCamera.transform.localPosition = originalCameraPosition;  // Reset camera shake
+        Debug.Log("Insanity mechanic enabled and reset.");
     }
+
+
+
 }
