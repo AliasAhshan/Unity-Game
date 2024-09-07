@@ -17,6 +17,12 @@ public class CentipedeEnemy : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public float raycastDistance = 1.5f; // Distance for ground detection raycast
+    public float rotationSpeed = 5f;     // Speed at which centipede rotates to match the ground slope
+
+    // Add more raycast points across the centipede's body
+    public Transform[] bodyRaycastPoints; // Array of transforms to hold raycast points along the body
+
     void Start()
     {
         animator = GetComponent<Animator>();  // Get the Animator component
@@ -28,18 +34,9 @@ public class CentipedeEnemy : MonoBehaviour
 
     void Update()
     {
-        // Apply gravity by ensuring Rigidbody2D gravity scale is working correctly
-        rb.gravityScale = 3f;  // Adjust this as needed in Unity Inspector
-
-        // Ground check using raycast
-        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
-        Debug.DrawRay(transform.position, Vector2.down * 1f, Color.red); // Visualize the raycast in the scene view
-
-        if (!isGrounded)
-        {
-            // Ensure the centipede stays grounded
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -1f)); // Apply downward velocity if floating
-        }
+        // Ground check and adjust rotation based on multiple raycasts across the body
+        AdjustRotationToGround();
+        ApplyGravityFromRaycasts();
 
         // Check distance to the player for attacking
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
@@ -56,6 +53,64 @@ public class CentipedeEnemy : MonoBehaviour
             StartCoroutine(StartAttackWithDelay());
         }
     }
+
+    void AdjustRotationToGround()
+    {
+        Vector2 averageNormal = Vector2.zero; // To store the average normal
+        int raycastHits = 0; // To count how many raycasts hit the ground
+
+        // Loop through all body raycast points and perform raycasts
+        foreach (Transform raycastPoint in bodyRaycastPoints)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(raycastPoint.position, Vector2.down, raycastDistance, groundLayer);
+            Debug.DrawRay(raycastPoint.position, Vector2.down * raycastDistance, Color.green); // Visualize the raycast
+
+            // If the raycast hits the ground, add its normal to the average
+            if (hit.collider != null)
+            {
+                averageNormal += hit.normal;
+                raycastHits++;
+            }
+        }
+
+        if (raycastHits > 0)
+        {
+            // Calculate the average normal
+            averageNormal /= raycastHits;
+
+            // Calculate the slope angle based on the average normal
+            float slopeAngle = Mathf.Atan2(averageNormal.y, averageNormal.x) * Mathf.Rad2Deg;
+
+            // Rotate the centipede to align with the slope
+            Quaternion targetRotation = Quaternion.Euler(0, 0, slopeAngle - 90f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+    }
+
+    void ApplyGravityFromRaycasts()
+    {
+        bool anyGroundHit = false; // Track if any raycast hits the ground
+
+        // Loop through all raycast points and perform raycasts
+        foreach (Transform raycastPoint in bodyRaycastPoints)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(raycastPoint.position, Vector2.down, raycastDistance, groundLayer);
+            Debug.DrawRay(raycastPoint.position, Vector2.down * raycastDistance, Color.green); // Visualize the raycast
+
+            // If the raycast hits the ground, the centipede is grounded at that point
+            if (hit.collider != null)
+            {
+                anyGroundHit = true; // At least one raycast hits the ground
+            }
+        }
+
+        // If none of the raycasts hit the ground, apply downward force (gravity)
+        if (!anyGroundHit)
+        {
+            rb.AddForce(Vector2.down * 100f);  // Adjust this value for the desired gravity effect
+        }
+    }
+
 
     void MoveTowardsPlayer()
     {
