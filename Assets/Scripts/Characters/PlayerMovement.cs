@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     Vector2 originalColliderSize; // Store the original size of the collider
     Vector2 originalColliderOffset; // Store the original offset of the collider
 
+    public CentipedeEnemy centipedeEnemy;
+
 
     public float horizontalInput;
     bool isFacingRight = true;
@@ -279,7 +281,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Log("Game Resumed");
-        
     }
 
     public void OnSaveGameNo()
@@ -305,10 +306,14 @@ public class PlayerMovement : MonoBehaviour
 
     void SaveGame()
     {
-        Vector2 playerPosition = transform.position;
+        Vector2 playerPosition = transform.position;  // Player's position
+        Vector2 centipedePosition = centipedeEnemy.transform.position;  // Centipede's position
         int health = currentHealth;
-        SaveSystem.SaveGame(playerPosition, health);
+
+        // Save both the player's and centipede's positions and health
+        SaveSystem.SaveGame(playerPosition, centipedePosition, health);
     }
+
 
     void LoadGame()
     {
@@ -318,6 +323,7 @@ public class PlayerMovement : MonoBehaviour
             Vector2 adjustedPosition = data.playerPosition;
             adjustedPosition.x += 2.5f; // Adjust this value as needed to place the player just outside the save zone
             transform.position = adjustedPosition;
+            centipedeEnemy.transform.position = new Vector3(data.centipedePosition.x, data.centipedePosition.y, centipedeEnemy.transform.position.z);
             currentHealth = data.currentHealth;
 
             Debug.Log("Game loaded, player position: " + data.playerPosition);
