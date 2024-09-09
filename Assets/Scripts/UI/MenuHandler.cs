@@ -18,4 +18,17 @@ public class MenuHandler : MonoBehaviour {
     {
         SceneManager.LoadScene(whichScene);
     }
+
+    public void StartGame()
+    {
+        // Delete the save file so that the player restarts from the beginning
+        SaveSystem.DeleteSave();
+
+        // Reload the scene
+        SceneManager.LoadScene(whichScene);
+
+
+        Debug.Log("Game has been reset and restarted.");
+    }
+
 }
