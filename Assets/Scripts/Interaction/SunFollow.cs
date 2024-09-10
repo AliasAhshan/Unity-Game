@@ -12,10 +12,19 @@ public class SunFollow : MonoBehaviour
 
     private Vector3 targetPosition;
 
+    // Store the initial Y position of the sun
+    private float initialY;
+
+    void Start()
+    {
+        // Save the initial Y position to keep the sun at the top
+        initialY = transform.position.y;
+    }
+
     void Update()
     {
-        // Calculate the target position with the offset
-        targetPosition = player.position + offset;
+        // Calculate the target position, only change X and Z, keep Y the same
+        targetPosition = new Vector3(player.position.x + offset.x, initialY, player.position.z + offset.z);
 
         // Smoothly move the sun towards the target position
         transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);

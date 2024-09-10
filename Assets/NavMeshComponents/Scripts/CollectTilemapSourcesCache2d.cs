@@ -27,28 +27,22 @@ namespace NavMeshPlus.Extensions
             base.Awake();
         }
 
-        private void OnTilemapTileChanged(Tilemap tilemap, Tilemap.SyncTile[] syncTiles)
+        // Use this function to handle tile changes manually
+        private void CheckTileChanges(Vector3Int position, TileBase tile)
         {
-            if (tilemap == _tilemap)
+            if (tile != null && _modifierMap.TryGetValue(tile, out NavMeshModifierTilemap.TileModifier tileModifier))
             {
-                foreach (Tilemap.SyncTile syncTile in syncTiles)
-                {
-                    Vector3Int position = syncTile.position;
-                    if (syncTile.tile != null && _modifierMap.TryGetValue(syncTile.tile, out NavMeshModifierTilemap.TileModifier tileModifier))
-                    {
-                        int i = _lookup[position];
-                        NavMeshBuildSource source = _sources[i];
-                        source.area = tileModifier.area;
-                        _sources[i] = source;
-                    }
-                    else if (_modifier.overrideArea)
-                    {
-                        int i = _lookup[position];
-                        NavMeshBuildSource source = _sources[i];
-                        source.area = _modifier.area;
-                        _sources[i] = source;
-                    }
-                }
+                int i = _lookup[position];
+                NavMeshBuildSource source = _sources[i];
+                source.area = tileModifier.area;
+                _sources[i] = source;
+            }
+            else if (_modifier.overrideArea)
+            {
+                int i = _lookup[position];
+                NavMeshBuildSource source = _sources[i];
+                source.area = _modifier.area;
+                _sources[i] = source;
             }
         }
 
@@ -72,17 +66,15 @@ namespace NavMeshPlus.Extensions
                 {
                     NavMeshBuildSource source = _sources[i];
                     Vector3Int position = _tilemap.WorldToCell(source.transform.MultiplyPoint3x4(Vector3.zero));
-
                     _lookup[position] = i;
                 }
             }
-            Tilemap.tilemapTileChanged -= OnTilemapTileChanged;
-            Tilemap.tilemapTileChanged += OnTilemapTileChanged;
+            // Removed tilemapTileChanged event hookup (as it's invalid)
         }
 
         protected override void OnDestroy()
         {
-            Tilemap.tilemapTileChanged -= OnTilemapTileChanged;
+            // No need to unsubscribe from the event since it's removed
             base.OnDestroy();
         }
     }

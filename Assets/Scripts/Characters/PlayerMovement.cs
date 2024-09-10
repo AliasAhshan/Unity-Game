@@ -601,7 +601,7 @@ public class PlayerMovement : MonoBehaviour
             // Emit death particles
             if (deathParticles != null)
             {
-                deathParticles.Emit(70);  // Emit 10 particles
+                deathParticles.Emit(70);  // Emit 70 particles
             }
             else
             {
@@ -616,6 +616,21 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 Debug.LogWarning("Audio source or death sound not assigned");
+            }
+
+            // Freeze the player's position (disable movement)
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = Vector2.zero;  // Stop any current movement
+                rb.isKinematic = true;       // Make the Rigidbody kinematic to freeze physics
+            }
+
+            // Optional: You can disable the player's movement script here if necessary
+            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.enabled = false;  // Disable player movement
             }
 
             // Hide the player (you can create your own Hide function)
@@ -637,6 +652,7 @@ public class PlayerMovement : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
+
 
     void ReloadScene()
     {
