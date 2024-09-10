@@ -21,7 +21,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Unpause()
     {
-        Cursor.visible = false;
+        Cursor.visible = true;
         gameObject.SetActive(false);
         GameManager.Instance.audioSource.PlayOneShot(openSound);
         Time.timeScale = 1f;

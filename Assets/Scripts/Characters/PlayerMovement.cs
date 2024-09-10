@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     Vector2 originalColliderOffset; // Store the original offset of the collider
 
     public CentipedeEnemy centipedeEnemy;
+    public GameObject centipedeEnemyGameObject;
 
 
     public float horizontalInput;
@@ -210,15 +211,15 @@ public class PlayerMovement : MonoBehaviour
         currentVelocity.x *= 0.98f;
         rb.velocity = currentVelocity;
 
-        Debug.Log("Player Velocity: " + rb.velocity);
+        //Debug.Log("Player Velocity: " + rb.velocity);
 
         if (usingMobileInput)
         {
-            Debug.Log("Using Mobile Input: " + horizontalInput);
+            //Debug.Log("Using Mobile Input: " + horizontalInput);
         }
         else
         {
-            Debug.Log("Using Keyboard Input: " + horizontalInput);
+            //Debug.Log("Using Keyboard Input: " + horizontalInput);
         }
 
         // Check if the player is grounded
@@ -262,6 +263,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Log("Game Paused");
+
     }
 
     public void OnSaveGameYes()
@@ -298,8 +300,6 @@ public class PlayerMovement : MonoBehaviour
             mobileControls.EnableMobileControls(true);
         }
     }
-
-
 
 
 
@@ -559,10 +559,17 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Trigger"))
+        {
+            Debug.Log("Player entered CentipedeTrigger");
+            centipedeEnemyGameObject.SetActive(true);  // Enable the centipede
+            Debug.Log("Centipede enabled: " + centipedeEnemyGameObject.activeSelf);
+        }
+
         PlayLandSound(); // Play land sound after landing
     }
 
-    void TogglePauseMenu()
+    public void TogglePauseMenu()
     {
         pauseMenu.SetActive(!pauseMenu.activeSelf);
         Time.timeScale = pauseMenu.activeSelf ? 0 : 1;
@@ -638,6 +645,12 @@ public class PlayerMovement : MonoBehaviour
 
             // Slow down time for effect
             Time.timeScale = 0.6f;
+
+            HUD hud = FindObjectOfType<HUD>();
+            if (hud != null)
+            {
+                hud.PlayerDied();  // Trigger health bar update in HUD
+            }
 
             // Wait for 2 seconds (in real time)
             yield return new WaitForSecondsRealtime(2f);

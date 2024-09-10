@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-/*Manages and updates the HUD, which contains your health bar, coins, etc*/
+/* Manages and updates the HUD, which contains your health bar, coins, etc */
 
 public class HUD : MonoBehaviour
 {
@@ -13,37 +13,50 @@ public class HUD : MonoBehaviour
     public Animator animator;
     [SerializeField] private GameObject ammoBar;
     public TextMeshProUGUI coinsMesh;
-    [SerializeField] private GameObject healthBar;
+    [SerializeField] private Image healthBar;  // Image for the health bar
     [SerializeField] private Image inventoryItemGraphic;
     [SerializeField] private GameObject startUp;
 
     private float ammoBarWidth;
-    private float ammoBarWidthEased; //Easing variables slowly ease towards a number
-    [System.NonSerialized] public Sprite blankUI; //The sprite that is shown in the UI when you don't have any items
+    private float ammoBarWidthEased;
+    [System.NonSerialized] public Sprite blankUI;
     private float coins;
     private float coinsEased;
-    private float healthBarWidth;
-    private float healthBarWidthEased;
     [System.NonSerialized] public string loadSceneName;
     [System.NonSerialized] public bool resetPlayer;
 
+    // Health Bar colors
+    public Color aliveColor = Color.green;   // Color when player is alive
+    public Color deadColor = Color.black;    // Color when player is dead
+
+    private bool playerIsDead = false;       // Track if the player has died
+
+    // Reference to PlayerMovement script
+    private PlayerMovement playerMovementScript;
+
     void Start()
     {
-        //Set all bar widths to 1, and also the smooth variables.
-        healthBarWidth = 1;
-        healthBarWidthEased = healthBarWidth;
-        ammoBarWidth = 1;
-        ammoBarWidthEased = ammoBarWidth;
-        coins = (float)NewPlayer.Instance.coins;
+        // Find the PlayerMovement script
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            playerMovementScript = playerObj.GetComponent<PlayerMovement>();
+        }
+
+        // Set the health bar to full and the color to the alive color
+        healthBar.color = aliveColor;
+
+        // Set initial coins value if you are tracking that
+        coins = 0;  // Initialize based on your actual coin setup
         coinsEased = coins;
         blankUI = inventoryItemGraphic.GetComponent<Image>().sprite;
     }
 
     void Update()
     {
-        //Update coins text mesh to reflect how many coins the player has! However, we want them to count up.
+        // Update coins text mesh to reflect how many coins the player has
         coinsMesh.text = Mathf.Round(coinsEased).ToString();
-        coinsEased += ((float)NewPlayer.Instance.coins - coinsEased) * Time.deltaTime * 5f;
+        coinsEased += (coins - coinsEased) * Time.deltaTime * 5f;
 
         if (coinsEased >= coins)
         {
@@ -51,19 +64,39 @@ public class HUD : MonoBehaviour
             coins = coinsEased + 1;
         }
 
-        //Controls the width of the health bar based on the player's total health
-        healthBarWidth = (float)NewPlayer.Instance.health / (float)NewPlayer.Instance.maxHealth;
-        healthBarWidthEased += (healthBarWidth - healthBarWidthEased) * Time.deltaTime * healthBarWidthEased;
-        healthBar.transform.localScale = new Vector2(healthBarWidthEased, 1);
-
-        //Controls the width of the ammo bar based on the player's total ammo
-        if (ammoBar)
+        // Check if the player has died
+        if (playerMovementScript != null && playerMovementScript.currentHealth <= 0 && !playerIsDead)
         {
-            ammoBarWidth = (float)NewPlayer.Instance.ammo / (float)NewPlayer.Instance.maxAmmo;
-            ammoBarWidthEased += (ammoBarWidth - ammoBarWidthEased) * Time.deltaTime * ammoBarWidthEased;
-            ammoBar.transform.localScale = new Vector2(ammoBarWidthEased, transform.localScale.y);
+            // Trigger death behavior
+            playerIsDead = true;
+            StartCoroutine(FadeOutHealthBar());
         }
-        
+    }
+
+    public void PlayerDied()
+    {
+        // Change health bar color to deathColor (black)
+        healthBar.color = deadColor;
+        Debug.Log("Player has died, health bar updated.");
+    }
+
+    IEnumerator FadeOutHealthBar()
+    {
+        float duration = 0.5f;  // Duration of the fade out
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            // Gradually change the health bar color to the dead color
+            healthBar.color = Color.Lerp(aliveColor, deadColor, elapsedTime / duration);
+
+            yield return null;  // Wait for the next frame
+        }
+
+        // Ensure the health bar is fully faded out
+        healthBar.color = deadColor;
     }
 
     public void HealthBarHurt()
@@ -76,18 +109,17 @@ public class HUD : MonoBehaviour
         inventoryItemGraphic.sprite = image;
     }
 
-    void ResetScene()
-    {
-        if (GameManager.Instance.inventory.ContainsKey("reachedCheckpoint"))
-        {
-            //Send player back to the checkpoint if they reached one!
-            NewPlayer.Instance.ResetLevel();
-        }
-        else
-        {
-            //Reload entire scene
-            SceneManager.LoadScene(loadSceneName);
-        }
-    }
-
+    // void ResetScene()
+    // {
+    //     if (GameManager.Instance.inventory.ContainsKey("reachedCheckpoint"))
+    //     {
+    //         // Send player back to the checkpoint
+    //         NewPlayer.ResetLevel();
+    //     }
+    //     else
+    //     {
+    //         // Reload entire scene
+    //         SceneManager.LoadScene(loadSceneName);
+    //     }
+    // }
 }

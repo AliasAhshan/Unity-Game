@@ -8,6 +8,7 @@ public class MobileControls : MonoBehaviour
     public Button leftButton;
     public Button rightButton;
     public Button slideButton;
+    public Button pauseButton;  // Reference to PauseButton
     public GameObject buttonPanel;
     private PlayerMovement playerMovement;
 
@@ -18,6 +19,12 @@ public class MobileControls : MonoBehaviour
         if (playerMovement == null)
         {
             Debug.LogError("No PlayerMovement script found!");
+        }
+
+        // Add listener for the PauseButton
+        if (pauseButton != null)
+        {
+            pauseButton.onClick.AddListener(OnPauseButtonPress); // Add listener to pause button
         }
     }
 
@@ -45,13 +52,14 @@ public class MobileControls : MonoBehaviour
         leftButton.gameObject.SetActive(enable);
         rightButton.gameObject.SetActive(enable);
         slideButton.gameObject.SetActive(enable);
+        pauseButton.gameObject.SetActive(enable);  // Enable/disable PauseButton
 
         if (enable)
         {
             buttonPanel.SetActive(true);  // Ensure the button panel is active when re-enabled
         }
     }
-    
+
     public void OnLeftButtonPress(BaseEventData eventData)
     {
         Debug.Log("Left Button Pressed");
@@ -84,5 +92,12 @@ public class MobileControls : MonoBehaviour
     public void OnSlideButtonPress(BaseEventData eventData)
     {
         playerMovement.SlideMobile();  // Trigger slide action
+    }
+
+    // Function for PauseButton press
+    public void OnPauseButtonPress()
+    {
+        Debug.Log("Pause Button Pressed");
+        playerMovement.TogglePauseMenu();  // Call the function in PlayerMovement to toggle the pause menu
     }
 }
