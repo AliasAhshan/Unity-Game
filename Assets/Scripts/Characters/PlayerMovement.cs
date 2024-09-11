@@ -559,7 +559,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Trigger"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("CentipedeTrigger"))
         {
             Debug.Log("Player entered CentipedeTrigger");
             centipedeEnemyGameObject.SetActive(true);  // Enable the centipede
