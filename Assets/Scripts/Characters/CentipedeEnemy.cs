@@ -5,7 +5,9 @@ using System.Collections;
 public class CentipedeEnemy : MonoBehaviour
 {
     public Transform player;             // Reference to the player
-    public float moveSpeed = 5f;         // Movement speed of the centipede
+    public float moveSpeed = 5f;         // Base movement speed of the centipede
+    public float minMoveSpeed = 1f;      // Minimum movement speed when near the player
+    public float decelerationRange = 3f; // Distance from the player where deceleration starts
     public float attackRange = 1.5f;     // Range at which the centipede should attack
     public float attackCooldown = 2f;    // Time between consecutive attacks
     private float lastAttackTime = 0f;   // Time since the last attack
@@ -52,6 +54,22 @@ public class CentipedeEnemy : MonoBehaviour
         position.z = 0;  // Set Z to 0 to keep the centipede on the 2D plane
         transform.position = position;
 
+        // Calculate the distance to the player
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        // Decelerate when approaching the player within the deceleration range
+        if (distanceToPlayer <= decelerationRange)
+        {
+            // Calculate speed reduction based on proximity to the player
+            float adjustedSpeed = Mathf.Lerp(minMoveSpeed, moveSpeed, distanceToPlayer / decelerationRange);
+            agent.speed = adjustedSpeed;
+        }
+        else
+        {
+            // Set the speed to normal when outside deceleration range
+            agent.speed = moveSpeed;
+        }
+
         // Set the destination for the NavMeshAgent
         agent.SetDestination(player.position);
 
@@ -59,7 +77,6 @@ public class CentipedeEnemy : MonoBehaviour
         AdjustRotationToGround();
 
         // Check if the centipede should attack
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         if (distanceToPlayer <= attackRange && Time.time > lastAttackTime + attackCooldown)
         {
             StartCoroutine(StartAttackWithDelay());

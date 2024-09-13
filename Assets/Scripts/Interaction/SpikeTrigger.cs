@@ -6,6 +6,7 @@ public class SpikeTrigger : MonoBehaviour
 {
     public GameObject spikes2; // Reference to the spike GameObject
     public LayerMask playerLayer; // Layer mask for the player
+    public float delayBeforeFall = 0f; // Time to wait before spikes fall, adjustable in the inspector
 
     private void Start()
     {
@@ -31,21 +32,24 @@ public class SpikeTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player Entered Trigger"); // Log to check if player is detected
+            StartCoroutine(ActivateSpikesAfterDelay()); // Start the coroutine for the delay
+        }
+    }
 
-            Rigidbody2D rb = spikes2.GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.bodyType = RigidbodyType2D.Dynamic; // Make the spikes fall
-                Debug.Log("Spikes 2 set to dynamic"); // Log to confirm spikes are set to dynamic
-            }
-            else
-            {
-                Debug.LogError("Rigidbody2D component not found on Spikes 2!");
-            }
+    private IEnumerator ActivateSpikesAfterDelay()
+    {
+        Debug.Log("Waiting for " + delayBeforeFall + " seconds before spikes fall");
+        yield return new WaitForSeconds(delayBeforeFall); // Wait for the specified time
+
+        Rigidbody2D rb = spikes2.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic; // Make the spikes fall
+            Debug.Log("Spikes 2 set to dynamic"); // Log to confirm spikes are set to dynamic
+        }
+        else
+        {
+            Debug.LogError("Rigidbody2D component not found on Spikes 2!");
         }
     }
 }
-
-
-
-
