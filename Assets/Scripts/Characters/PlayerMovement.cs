@@ -28,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     bool isFacingRight = true;
     bool isGrounded = false;
 
+    [Header("Jump Cooldown Settings")]
+    public float jumpCooldown = 0.5f;  // Time between jumps
+    private float lastJumpTime = 0f;    // Tracks the time since the last jump
+
     public Rigidbody2D rb;
     Animator animator;
 
@@ -45,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Sound Settings")]
     public AudioClip jumpSound;     // Sound for jumping
+    public AudioSource jumpAudioSource;
     public AudioClip landSound;     // Sound for landing
     public AudioClip footstepSound; // Single sound for each footstep
 
@@ -121,13 +126,9 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Check for jump input
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded && Time.time >= lastJumpTime + jumpCooldown)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpPower);  // Perform the jump
-            isGrounded = false;  // Mark as not grounded
-            animator.SetBool("isJumping", true);  // Set jump animation
-            PlayJumpSound();  // Play jump sound
-            Debug.Log("Player jumped");
+            Jump();
         }
 
         // Flip sprite direction based on movement
@@ -223,6 +224,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Check if the player is grounded
+        isGrounded = isGroundedCheck();
         if (rb.velocity.y <= 0 && isGroundedCheck())
         {
             isGrounded = true;
@@ -414,15 +416,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump()
     {
-        if (isGrounded)
+        // Check if the player is grounded and the cooldown has passed
+        if (isGrounded && Time.time >= lastJumpTime + jumpCooldown)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);  // Apply vertical velocity for jumping
+            lastJumpTime = Time.time;  // Record the time of this jump to enforce cooldown
             isGrounded = false;  // Mark as not grounded
             animator.SetBool("isJumping", true);  // Set jump animation
             PlayJumpSound();  // Play jump sound
             Debug.Log("Player jumped");
         }
     }
+
 
     private bool IsPushingAgainstWall()
     {
@@ -694,9 +699,9 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayJumpSound()
     {
-        if (audioSource != null && jumpSound != null)
+        if (jumpAudioSource != null && jumpSound != null)
         {
-            audioSource.PlayOneShot(jumpSound); // Play jump sound
+            jumpAudioSource.PlayOneShot(jumpSound); // Play jump sound
             Debug.Log("Jump sound played");
         }
         else
@@ -721,7 +726,7 @@ public class PlayerMovement : MonoBehaviour
     void HandleFootstepSound()
     {
         // Play footstep sound if grounded and moving
-        if (Mathf.Abs(horizontalInput) > 0 && isGrounded)
+        if (Mathf.Abs(horizontalInput) > 0 && isGrounded && !animator.GetBool("isJumping"))
         {
             PlayFootstepSound();
         }
