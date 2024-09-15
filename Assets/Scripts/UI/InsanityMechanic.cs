@@ -21,12 +21,20 @@ public class InsanityMechanic : MonoBehaviour
     private PlayerMovement playerMovementScript;
     private Coroutine insanityCoroutine; // Keep track of the insanity coroutine
 
+    public AudioSource heartbeatAudioSource; // AudioSource component to play heartbeat sound
+    public AudioClip heartbeatSound; // Heartbeat sound clip
+    public float maxVolume = 1f;  // The maximum volume for the heartbeat sound
+    public float volumeFadeSpeed = 0.5f;  // Speed at which the volume increases
+
+
+
     void Start()
     {
         originalCameraPosition = mainCamera.transform.localPosition;
         insanityOverlay.color = new Color(0, 0, 0, 0); // Start with a transparent overlay
         insanityOverlay.raycastTarget = false; // Disable raycast target on the overlay
         playerMovementScript = GetComponent<PlayerMovement>();
+
 
     }
 
@@ -72,12 +80,28 @@ public class InsanityMechanic : MonoBehaviour
     {
         isInsanityActive = true;
 
+        // Start the heartbeat sound if it's not already playing
+        if (heartbeatAudioSource != null && heartbeatSound != null)
+        {
+            if (!heartbeatAudioSource.isPlaying)
+            {
+                heartbeatAudioSource.clip = heartbeatSound; // Ensure the right clip is set
+                heartbeatAudioSource.volume = 0f;  // Start the volume at 0
+                heartbeatAudioSource.Play();  // Play the heartbeat sound
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Heartbeat AudioSource or sound is missing!");
+        }
+
         // Store the initial position of the overlay to reset after shake
         Vector3 initialOverlayPosition = insanityOverlay.transform.localPosition;
 
         // Set a reasonable shake limit
         float shakeLimit = 100f;
 
+        // Gradually increase the heartbeat volume as the insanity overlay fades in
         while (insanityOverlay.color.a < 1f)
         {
             // Apply shake to the overlay with controlled shake magnitude
@@ -88,6 +112,9 @@ public class InsanityMechanic : MonoBehaviour
 
             // Apply the clamped shake offset to the overlay
             insanityOverlay.transform.localPosition = initialOverlayPosition + shakeOffset;
+
+            // Gradually increase the volume of the heartbeat
+            heartbeatAudioSource.volume = Mathf.Lerp(heartbeatAudioSource.volume, maxVolume, volumeFadeSpeed * Time.deltaTime);
 
             // Fade to black
             insanityOverlay.color = new Color(0, 0, 0, insanityOverlay.color.a + fadeSpeed * Time.deltaTime);
@@ -106,9 +133,8 @@ public class InsanityMechanic : MonoBehaviour
         insanityOverlay.transform.localPosition = initialOverlayPosition;
 
         // Reset the overlay alpha
-        insanityOverlay.color = new Color(0, 0, 0, 0); 
+        insanityOverlay.color = new Color(0, 0, 0, 0);
     }
-
 
 
 
@@ -135,13 +161,16 @@ public class InsanityMechanic : MonoBehaviour
             insanityCoroutine = null;  // Clear reference
         }
 
-        // We no longer call ResetInsanity() here, to prevent it from affecting the UI
-        // Instead, we manually reset only the necessary insanity variables
+        // Stop the heartbeat sound if it's playing
+        if (heartbeatAudioSource != null && heartbeatAudioSource.isPlaying)
+        {
+            heartbeatAudioSource.Stop(); // Stop the heartbeat immediately
+        }
+
         isInsanityActive = false;
         timeStill = 0f; // Reset the timer
         insanityOverlay.color = new Color(0, 0, 0, 0);  // Reset the insanity overlay without affecting UI
     }
-
 
     public void EnableInsanityMechanic()
     {

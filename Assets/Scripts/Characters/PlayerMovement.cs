@@ -13,15 +13,24 @@ public class PlayerMovement : MonoBehaviour
     public float slideDuration = 0.5f; // Duration of the slide
 
     public GameObject saveGamePopup;
+    [SerializeField] private GameObject ambienceGameObject;
+
 
     bool isSliding = false; // To track if the player is currently sliding
+    [Header("Slide Sound Settings")]
+    [SerializeField] private AudioClip slideSound;  // Slide sound effect
+    [SerializeField] private AudioSource slideAudioSource;
+    [SerializeField] private float slideSoundVolume = 1f;
 
     BoxCollider2D boxCollider; // To reference the player's collider
     Vector2 originalColliderSize; // Store the original size of the collider
     Vector2 originalColliderOffset; // Store the original offset of the collider
 
+
+    [Header("Centipede Settings")]
     public CentipedeEnemy centipedeEnemy;
     public GameObject centipedeEnemyGameObject;
+    [SerializeField] private AudioSource centipedeAudioSource;
 
 
     public float horizontalInput;
@@ -250,6 +259,11 @@ public class PlayerMovement : MonoBehaviour
         saveGamePopup.SetActive(true);
         Time.timeScale = 0f; // Pause the game
 
+        if (ambienceGameObject != null)
+        {
+            ambienceGameObject.SetActive(false);  // Disable ambience music
+        }
+
         // Disable mobile controls during the save popup
         MobileControls mobileControls = FindObjectOfType<MobileControls>();
         if (mobileControls != null)
@@ -277,6 +291,10 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 1f; // Resume the game
         canMove = true; // Re-enable player movement
 
+        if (ambienceGameObject != null)
+        {
+            ambienceGameObject.SetActive(true);  // Disable ambience music
+        }
         // Re-enable mobile controls after the popup
         MobileControls mobileControls = FindObjectOfType<MobileControls>();
         if (mobileControls != null)
@@ -295,6 +313,11 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 1f; // Resume the game
         canMove = true; // Re-enable player movement
 
+        if (ambienceGameObject != null)
+        {
+            ambienceGameObject.SetActive(true);  // Disable ambience music
+        }
+
         // Re-enable mobile controls after the popup
         MobileControls mobileControls = FindObjectOfType<MobileControls>();
         if (mobileControls != null)
@@ -302,8 +325,6 @@ public class PlayerMovement : MonoBehaviour
             mobileControls.EnableMobileControls(true);
         }
     }
-
-
 
 
     void SaveGame()
@@ -359,11 +380,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
     private IEnumerator Slide()
     {
         isSliding = true;
         animator.SetBool("isSliding", true);
+
+        // Play the slide sound with adjustable volume when sliding starts
+        if (audioSource != null && slideSound != null)
+        {
+            audioSource.PlayOneShot(slideSound, slideSoundVolume);
+        }
 
         // Reduce collider size during slide
         boxCollider.size = new Vector2(boxCollider.size.x, boxCollider.size.y / 6);
@@ -384,14 +410,6 @@ public class PlayerMovement : MonoBehaviour
 
         isSliding = false;
         animator.SetBool("isSliding", false);
-
-        // Ensure the player is grounded after sliding
-        yield return new WaitForFixedUpdate();
-        if (isGroundedCheck())
-        {
-            isGrounded = true;
-            animator.SetBool("isJumping", false);
-        }
     }
 
     public void SetMobileHorizontalInput(float input)
@@ -620,6 +638,11 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogWarning("Death particles not assigned");
             }
 
+            if (centipedeAudioSource != null)
+            {
+                centipedeAudioSource.Stop();
+            }
+
             // Play death sound
             if (audioSource != null && deathSound != null)
             {
@@ -730,7 +753,17 @@ public class PlayerMovement : MonoBehaviour
         {
             PlayFootstepSound();
         }
-        // else if (audioSource.isPlaying)
+
+        else
+        {
+            // If the player is not grounded or jumping, stop the footstep sound
+            if (audioSource.isPlaying && !isGrounded)
+            {
+                audioSource.Stop(); // Stop the footstep sound
+                Debug.Log("Footstep sound stopped, player is not grounded or is jumping.");
+            }
+        }
+            // else if (audioSource.isPlaying)
         // {
         //     audioSource.Stop(); // Stop the footstep sound if the player stops moving
         // }
