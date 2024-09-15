@@ -14,6 +14,8 @@ public class CentipedeEnemy : MonoBehaviour
     public float attackDelay = 0.5f;     // Time delay before applying damage (for animation)
     public float raycastDistance = 1.5f; // Distance for ground detection raycast
     public float rotationSpeed = 5f;     // Speed at which centipede rotates to match the ground slope
+    public float yLockSpeed = 0.1f;      // Speed at which Y position adjusts to match the player's Y position
+    public float yAdjustDistance = 2f;   // Maximum X distance from the player to adjust Y
 
     private Animator animator;           // Reference to the Animator
     private bool isAttacking = false;    // Flag to check if centipede is attacking
@@ -52,16 +54,23 @@ public class CentipedeEnemy : MonoBehaviour
         // Keep Z position constant (2D plane)
         Vector3 position = transform.position;
         position.z = 0;  // Set Z to 0 to keep the centipede on the 2D plane
+
+        // Calculate the X-axis distance to the player
+        float distanceToPlayerX = Mathf.Abs(transform.position.x - player.position.x);
+
+        // **Adjust Y position only when centipede is close enough to the player's X position**
+        if (distanceToPlayerX <= yAdjustDistance)
+        {
+            position.y = Mathf.Lerp(position.y, player.position.y, yLockSpeed * Time.deltaTime);
+        }
+
         transform.position = position;
 
-        // Calculate the distance to the player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
         // Decelerate when approaching the player within the deceleration range
-        if (distanceToPlayer <= decelerationRange)
+        if (distanceToPlayerX <= decelerationRange)
         {
             // Calculate speed reduction based on proximity to the player
-            float adjustedSpeed = Mathf.Lerp(minMoveSpeed, moveSpeed, distanceToPlayer / decelerationRange);
+            float adjustedSpeed = Mathf.Lerp(minMoveSpeed, moveSpeed, distanceToPlayerX / decelerationRange);
             agent.speed = adjustedSpeed;
         }
         else
@@ -70,14 +79,15 @@ public class CentipedeEnemy : MonoBehaviour
             agent.speed = moveSpeed;
         }
 
-        // Set the destination for the NavMeshAgent
-        agent.SetDestination(player.position);
+        // Set the destination for the NavMeshAgent (only adjust X position)
+        Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, transform.position.z);
+        agent.SetDestination(targetPosition);
 
         // Adjust rotation to match ground slope
         AdjustRotationToGround();
 
         // Check if the centipede should attack
-        if (distanceToPlayer <= attackRange && Time.time > lastAttackTime + attackCooldown)
+        if (distanceToPlayerX <= attackRange && Time.time > lastAttackTime + attackCooldown)
         {
             StartCoroutine(StartAttackWithDelay());
         }
