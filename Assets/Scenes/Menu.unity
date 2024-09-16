@@ -899,7 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fa67dafa60a44f4afe0f404dcf5cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startScene: Menu
+  startScene: CutScene1
   continueScene: DemoLevel
   buttonClickSound: {fileID: 8300000, guid: 15de3c299f06b9946ae5f407f1ace63b, type: 3}
   buttonClickVolume: 2

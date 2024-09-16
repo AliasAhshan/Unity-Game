@@ -173,7 +173,8 @@ public class CentipedeEnemy : MonoBehaviour
     public void SaveCentipedePosition()
     {
         Vector2 centipedePosition = new Vector2(transform.position.x, transform.position.y);
-        SaveSystem.SaveGame(player.position, centipedePosition, player.GetComponent<PlayerMovement>().currentHealth);
+        SaveSystem.SaveGame(player.position, centipedePosition, player.GetComponent<PlayerMovement>().currentHealth, true);  // Pass true if the player has saved at the save point
+
     }
 
     // Load the centipede's position

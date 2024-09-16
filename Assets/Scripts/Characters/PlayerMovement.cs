@@ -334,8 +334,9 @@ public class PlayerMovement : MonoBehaviour
         int health = currentHealth;
 
         // Save both the player's and centipede's positions and health
-        SaveSystem.SaveGame(playerPosition, centipedePosition, health);
+        SaveSystem.SaveGame(playerPosition, centipedePosition, health, true); // Pass a flag to indicate save point is used
     }
+
 
 
     void LoadGame()
@@ -351,6 +352,12 @@ public class PlayerMovement : MonoBehaviour
 
             Debug.Log("Game loaded, player position: " + data.playerPosition);
             Debug.Log("Game loaded, player health: " + data.currentHealth);
+
+            if (data.hasSavedAtThisPoint)
+            {
+                Debug.Log("Save point already used, skip showing save popup");
+                // Optionally, do something else here if needed
+            }
 
             InsanityMechanic insanityMechanic = GetComponent<InsanityMechanic>();
             if (insanityMechanic != null)
@@ -377,6 +384,7 @@ public class PlayerMovement : MonoBehaviour
     {
         SaveSystem.DeleteSave();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SaveSystem.ResetSavePointFlag();
     }
 
 
@@ -570,6 +578,13 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Entered Trigger Zone with: " + collision.gameObject.name);
         if (collision.gameObject.layer == LayerMask.NameToLayer("SavePoint"))
         {
+
+            GameData data = SaveSystem.LoadGame();
+            if (data != null && data.hasSavedAtThisPoint)
+            {
+                Debug.Log("Save point already used, skipping save popup.");
+                return;  // Skip showing the save popup
+            }
             collision.GetComponent<Collider2D>().enabled = false;
             ShowSaveGamePopup();
 

@@ -297,7 +297,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_VideoClip
       value: 
-      objectReference: {fileID: 32900000, guid: d27aa608e435c034093c86c1a570ff69,
+      objectReference: {fileID: 32900000, guid: 50d0bdc0f71d2364db9ddf0ac852433c,
         type: 3}
     - target: {fileID: 328658811004681324, guid: 7e5e98a37fe6244a69a096ebf6db5d10,
         type: 3}
@@ -309,6 +309,11 @@ PrefabInstance:
       propertyPath: m_TargetCamera
       value: 
       objectReference: {fileID: 1484615359}
+    - target: {fileID: 328658811004681324, guid: 7e5e98a37fe6244a69a096ebf6db5d10,
+        type: 3}
+      propertyPath: m_WaitForFirstFrame
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e5e98a37fe6244a69a096ebf6db5d10, type: 3}
 --- !u!1 &982308028
@@ -381,7 +386,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: 
 --- !u!222 &982308031
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -490,10 +495,10 @@ RectTransform:
   m_Father: {fileID: 829098849}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 681, y: 292}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -179.8, y: -98.7}
+  m_SizeDelta: {x: 250.18506, y: 116.0857}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1342718208
 MonoBehaviour:
@@ -564,15 +569,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 6b79465f2772c3f4ab472338b4872802, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
